@@ -3,12 +3,10 @@ title: "Presigned URLs"
 description: "Presigned URLs is the safest way to upload files through the client. One example is from NUI in FiveM, where you otherwise would expose the token to every client if you're not using a presigned URL, or uploading your files from the server. "
 ---
 
-To get a presigned URL, you first need to request for it. Here we'll go through how you'd do it.
+To get a presigned URL, you first need to request for it. Here we'll go through how you'd do it
 
 <Steps>
-  <Step title="New Step">
-    ### Request the presigned URL
-
+  <Step title="Request the presigned URL">
     Start by performing a `GET` request on the server. This needs to contain the endpoint and your API token.
 
     The `?fileType` param can be `image`, `audio` or `video`.
@@ -34,6 +32,8 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         	"status": "ok"
         }
         ```
+
+        This is the url that you will be using in order to upload the file.
       </Tab>
       <Tab title="Node">
         ```javascript

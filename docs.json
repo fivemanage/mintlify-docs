@@ -74,10 +74,16 @@
         ]
       },
       {
+        "tab": "Lite"
+      },
+      {
         "tab": "FiveM SDK"
       },
       {
-        "tab": "Lite"
+        "tab": "Node SDK"
+      },
+      {
+        "tab": "Roblox SDK"
       }
     ]
   },

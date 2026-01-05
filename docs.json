@@ -23,12 +23,61 @@
         }
       ]
     },
-    "dropdowns": [
+    "tabs": [
       {
-        "dropdown": "Hello dropdown",
-        "pages": [
-          "hello-dropdown/what-are-you"
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": ["index", "quickstart"]
+          },
+          {
+            "group": "Uploading files",
+            "pages": [
+              "uploading/markdown",
+              "essentials/code",
+              "essentials/images",
+              "guides/uploading-files/presigned-urls"
+            ]
+          },
+          {
+            "group": "AI tools",
+            "pages": [
+              "ai-tools/cursor",
+              "ai-tools/claude-code",
+              "ai-tools/windsurf"
+            ]
+          },
+          {
+            "group": "Integration",
+            "pages": ["guides/integration/lb-phone"]
+          }
         ]
+      },
+      {
+        "tab": "API reference",
+        "groups": [
+          {
+            "group": "API documentation",
+            "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "Endpoints",
+            "openapi": "openapi.json"
+          }
+        ]
+      },
+      {
+        "tab": "Lite"
+      },
+      {
+        "tab": "FiveM SDK"
+      },
+      {
+        "tab": "Node SDK"
+      },
+      {
+        "tab": "Roblox SDK"
       }
     ]
   },

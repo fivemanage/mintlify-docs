@@ -35,14 +35,7 @@
             ]
           },
           {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
+            "group": "Uploading files",
             "pages": [
               "essentials/markdown",
               "essentials/code",

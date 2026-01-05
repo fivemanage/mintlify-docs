@@ -62,14 +62,12 @@ When we want to delete a video, we can do so by sending a DELETE request to the 
 
 The `:id` parameter should be the ID of the video you want to delete. You can get the ID from the response when you upload a video (see above).
 
-# 
-
 ```js
 import axios from "axios";
 
 const options = {
   method: 'DELETE',
-  url: 'http://fmapi.net/api/video/delete/0987654321',
+  url: 'http://api.fivemanage.com/api/video/delete/0987654321',
   headers: {
     Authorization: 'YOUR_API_TOKEN'
   }
@@ -79,5 +77,5 @@ axios.request(options).then(function (response) {
   console.log(response.data);
 }).catch(function (error) {
   console.error(error);
-});
+})
 ```

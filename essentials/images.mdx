@@ -4,45 +4,74 @@ icon: "video"
 title: "Videos"
 ---
 
-<img
-  style={{ borderRadius:"0.5rem" }}
-  src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
-/>
+## Uploading videos
 
-## Image
+### Getting started
+In order to send vidoes to the Video API, you can do so by sending a POST request to the https://fmapi.net/api/v2/video endpoint.
 
-### Using Markdown
+To upload video, simply submit a form with a form field called `file` with your video as value. As well as metadata.
 
-The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
 
-```md
-![title](/path/image.jpg)
+### Uploading a video
+```js
+const axios = require('axios');
+const fs = require('fs');
+
+const apiKey = 'YOUR_API_TOKEN';
+const url = 'https://fmapi.net/api/v2/video';
+
+const formData = new FormData();
+
+formData.append('file', yourVideoBlob);
+// Optional metadata field (JSON string)
+formData.append("metadata", JSON.stringify({
+    name: 'My video',
+    description: 'This is a video of something cool",
+    // or any other field
+}));
+
+axios.post(url, formData, {
+    headers: {
+        Authorization: apiKey,
+    }
+}).then(res => {
+    console.log(res.data.url);
+}).catch(err => {
+    console.error(err);
+});
 ```
 
-Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
-
-### Using embeds
-
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
-
-```html
-<img height="200" src="/path/image.jpg" />
+#### Response
+##### Success
+```json
+{
+  "data": {
+    "id": "7F9pGhN8qwErT1vx5aZk",
+    "url": "https://i.fmfile.com/6E9pGhN8qwErT1vx5aZk/7F9pGhN8qwErT1vx5aZk.mp4"
+  },
+  "status": "ok"
+}
 ```
 
-## Embeds and HTML elements
+### Deleting a video
+When we want to delete a video, we can do so by sending a DELETE request to the https://fmapi.net/api/video/:id endpoint.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/4KzFe50RQkQ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width:"100%",borderRadius:"0.5rem" }} />
+The `:id` parameter should be the ID of the video you want to delete. You can get the ID from the response when you upload a video (see above).
+#
+```js
+import axios from "axios";
 
-<br />
+const options = {
+  method: 'DELETE',
+  url: 'http://fmapi.net/api/video/delete/0987654321',
+  headers: {
+    Authorization: 'YOUR_API_TOKEN'
+  }
+};
 
-<Tip>
-  Mintlify supports [HTML tags in Markdown](https://www.markdownguide.org/basic-syntax/#html). This is helpful if you prefer HTML tags to Markdown syntax, and lets you create documentation with infinite flexibility.
-</Tip>
-
-### iFrames
-
-Loads another HTML page within the document. Most commonly used for embedding videos.
-
-```html
-<iframe src="https://www.youtube.com/embed/4KzFe50RQkQ"> </iframe>
+axios.request(options).then(function (response) {
+  console.log(response.data);
+}).catch(function (error) {
+  console.error(error);
+});
 ```

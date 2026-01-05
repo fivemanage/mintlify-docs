@@ -1,7 +1,6 @@
 ---
 title: "Presigned URLs"
-description: "Presigned URLs is the safest way to upload files through the client. One example is from NUI in FiveM, where you otherwise would expose the token to every client if you're not using a presigned URL, or uploading your files from the server.
-"
+description: "Presigned URLs is the safest way to upload files through the client. One example is from NUI in FiveM, where you otherwise would expose the token to every client if you're not using a presigned URL, or uploading your files from the server. "
 ---
 
 To get a presigned URL, you first need to request for it. Here we'll go through how you'd do it.
@@ -12,10 +11,35 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
 
     Start by performing a `GET` request on the server. This needs to contain the endpoint and your API token.
 
-    The `?fileType` param can be `image`, `audio` or `video`. 
+    The `?fileType` param can be `image`, `audio` or `video`.
 
     <Info>
       We plan to remove this `?fileType` param in our next version of the API.
     </Info>
+    <Tabs>
+      <Tab title="cURL">
+        ```bash
+        curl --request GET \
+        	--url 'https://fmapi.net/api/v2/presigned-url?fileType=image' \
+        	--header 'Authorization: YOUR_API_TOKEN' \
+        ```
+      </Tab>
+      <Tab title="Node">
+        ```javascript
+        const options = {
+        	method: 'GET',
+        	headers: {
+        		'User-Agent': 'YOUR_SERVICE',
+        		Authorization: 'YOUR_API_TOKEN'
+        	}
+        };
+        
+        fetch('https://fmapi.net/api/v2/presigned-url?fileType=image', options)
+        	.then(response => response.json())
+            .then(response => console.log(response))
+        	.catch(err => console.error(err));
+        ```
+      </Tab>
+    </Tabs>
   </Step>
 </Steps>

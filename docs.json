@@ -39,7 +39,8 @@
             "pages": [
               "uploading/markdown",
               "essentials/code",
-              "essentials/images"
+              "essentials/images",
+              "guides/uploading-files/presigned-urls"
             ]
           },
           {
@@ -49,6 +50,10 @@
               "ai-tools/claude-code",
               "ai-tools/windsurf"
             ]
+          },
+          {
+            "group": "Integration",
+            "pages": []
           }
         ]
       },

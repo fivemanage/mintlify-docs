@@ -18,68 +18,75 @@
         }
       ]
     },
-    "tabs": [
+    "products": [
       {
-        "tab": "Guides",
-        "groups": [
+        "product": "Fivemanage",
+        "description": "Fivemanage is a platform for managing your media files.",
+        "icon": "rocket",
+        "tabs": [
           {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart"
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["index", "quickstart"]
+              },
+              {
+                "group": "Uploading files",
+                "pages": [
+                  "guides/uploading-files/first-steps",
+                  "guides/uploading-files/images",
+                  "guides/uploading-files/videos",
+                  "guides/uploading-files/presigned-urls"
+                ]
+              },
+              {
+                "group": "AI tools",
+                "pages": [
+                  "ai-tools/cursor",
+                  "ai-tools/claude-code",
+                  "ai-tools/windsurf"
+                ]
+              },
+              {
+                "group": "Integration",
+                "pages": ["guides/integration/lb-phone"]
+              }
             ]
           },
           {
-            "group": "Uploading files",
-            "pages": [
-              "guides/uploading-files/first-steps",
-              "guides/uploading-files/images",
-              "guides/uploading-files/videos",
-              "guides/uploading-files/presigned-urls"
+            "tab": "API reference",
+            "groups": [
+              {
+                "group": "API documentation",
+                "pages": ["api-reference/introduction"]
+              },
+              {
+                "group": "Endpoints",
+                "openapi": "openapi.json"
+              }
             ]
           },
           {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
+            "tab": "FiveM SDK"
           },
           {
-            "group": "Integration",
-            "pages": [
-              "guides/integration/lb-phone"
-            ]
+            "tab": "Node SDK"
+          },
+          {
+            "tab": "Roblox SDK"
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
+        "product": "Lite",
+        "description": "Lightweight version of Fivemanage.",
+        "icon": "feather",
+        "tabs": [
           {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "openapi": "openapi.json"
+            "tab": "Overview"
           }
         ]
-      },
-      {
-        "tab": "Lite"
-      },
-      {
-        "tab": "FiveM SDK"
-      },
-      {
-        "tab": "Node SDK"
-      },
-      {
-        "tab": "Roblox SDK"
       }
     ]
   },

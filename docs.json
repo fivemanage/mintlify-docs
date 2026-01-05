@@ -21,15 +21,18 @@
     "products": [
       {
         "product": "Fivemanage",
-        "description": "Fivemanage is a platform for managing your media files.",
         "icon": "rocket",
+        "description": "Fivemanage is a platform for managing your media files.",
         "tabs": [
           {
             "tab": "Guides",
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["index", "quickstart"]
+                "pages": [
+                  "index",
+                  "quickstart"
+                ]
               },
               {
                 "group": "Uploading files",
@@ -50,7 +53,9 @@
               },
               {
                 "group": "Integration",
-                "pages": ["guides/integration/lb-phone"]
+                "pages": [
+                  "guides/integration/lb-phone"
+                ]
               }
             ]
           },
@@ -59,7 +64,9 @@
             "groups": [
               {
                 "group": "API documentation",
-                "pages": ["api-reference/introduction"]
+                "pages": [
+                  "api-reference/introduction"
+                ]
               },
               {
                 "group": "Endpoints",
@@ -80,8 +87,8 @@
       },
       {
         "product": "Lite",
-        "description": "Lightweight version of Fivemanage.",
         "icon": "feather",
+        "description": "Lightweight version of Fivemanage.",
         "tabs": [
           {
             "tab": "Overview"

@@ -37,7 +37,7 @@
           {
             "group": "Uploading files",
             "pages": [
-              "essentials/markdown",
+              "uploading/markdown",
               "essentials/code",
               "essentials/images",
               "essentials/reusable-snippets"

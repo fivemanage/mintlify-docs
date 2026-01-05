@@ -1,5 +1,5 @@
 ---
-description: "Add image, video, and other HTML elements"
+description: "How to upload videos through our API."
 icon: "video"
 title: "Videos"
 ---
@@ -7,12 +7,13 @@ title: "Videos"
 ## Uploading videos
 
 ### Getting started
-In order to send vidoes to the Video API, you can do so by sending a POST request to the https://fmapi.net/api/v2/video endpoint.
+
+In order to send vidoes to the Upload API, you can do so by sending a POST request to the https://api.fivemanage.com/api/v2/video endpoint.
 
 To upload video, simply submit a form with a form field called `file` with your video as value. As well as metadata.
 
-
 ### Uploading a video
+
 ```js
 const axios = require('axios');
 const fs = require('fs');
@@ -42,7 +43,9 @@ axios.post(url, formData, {
 ```
 
 #### Response
+
 ##### Success
+
 ```json
 {
   "data": {
@@ -54,10 +57,13 @@ axios.post(url, formData, {
 ```
 
 ### Deleting a video
+
 When we want to delete a video, we can do so by sending a DELETE request to the https://fmapi.net/api/video/:id endpoint.
 
 The `:id` parameter should be the ID of the video you want to delete. You can get the ID from the response when you upload a video (see above).
-#
+
+# 
+
 ```js
 import axios from "axios";
 

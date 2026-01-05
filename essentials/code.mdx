@@ -58,7 +58,9 @@ axios.post(url, formData, {
 ```json
 {
   "data": {
+	// use this ID when you want to delete or get a file later
     "id": "7F9pGhN8qwErT1vx5aZk",
+	// url might be r2.fivemanage.com as well
     "url": "https://i.fmfile.com/6E9pGhN8qwErT1vx5aZk/7F9pGhN8qwErT1vx5aZk.webp"
   },
   "status": "ok"
@@ -76,7 +78,7 @@ import axios from "axios";
 
 const options = {
   method: 'DELETE',
-  url: 'http://fmapi.net/api/image/delete/0987654321',
+  url: 'http://api.fivemanage.com/api/image/delete/0987654321',
   headers: {
     Authorization: 'YOUR_API_TOKEN'
   }

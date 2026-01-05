@@ -4,8 +4,8 @@
   "name": "Fivemanage Docs",
   "colors": {
     "primary": "#fbb15b",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "light": "#fbb15b",
+    "dark": "#fbb15b"
   },
   "favicon": "/images/Fivemanage-(Favicon).jpg",
   "navigation": {

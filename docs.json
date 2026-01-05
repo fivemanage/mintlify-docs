@@ -53,7 +53,9 @@
           },
           {
             "group": "Integration",
-            "pages": []
+            "pages": [
+              "guides/integration/lb-phone"
+            ]
           }
         ]
       },

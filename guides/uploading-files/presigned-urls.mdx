@@ -23,6 +23,17 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         	--url 'https://fmapi.net/api/v2/presigned-url?fileType=image' \
         	--header 'Authorization: YOUR_API_TOKEN' \
         ```
+
+        You will then get a response that looks like this:
+
+        ```json
+        {
+        	"data": {
+            	"presignedUrl": "https://fmapi.net/api/v2/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          	},
+        	"status": "ok"
+        }
+        ```
       </Tab>
       <Tab title="Node">
         ```javascript

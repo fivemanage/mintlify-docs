@@ -21,6 +21,12 @@
           "icon": "newspaper",
           "href": "https://mintlify.com/blog"
         }
+      ],
+      "products": [
+        {
+          "product": "Fivemanage Lite",
+          "href": "https://github.com/fivemanage/lite"
+        }
       ]
     },
     "tabs": [

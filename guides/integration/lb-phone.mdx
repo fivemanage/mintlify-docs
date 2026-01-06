@@ -6,8 +6,22 @@ title: "LB Phone"
   This requires LB-Phone v1.5.0 or higher
 </Warning>
 
-``` lb-phone/config/config.lua
+## Configuring
+
+First open `lb-phone/config/config.lua` and set all upload methods to `Fivemanage`
+
+```lb-phone/config/config.lua lb-phone/config/config.lua
 Config.UploadMethod.Video = "Fivemanage"
 Config.UploadMethod.Image = "Fivemanage"
 Config.UploadMethod.Audio = "Fivemanage"
+```
+
+Now set the API token you got from Fivemanage in `lb-phone/server/apiKeys.lua`
+
+``` lb-phone/server/apiKeys.lua
+API_KEYS = {
+    Video = "YOUR_TOKEN",
+    Image = "YOUR_TOKEN",
+    Audio = "YOUR_TOKEN",
+}
 ```

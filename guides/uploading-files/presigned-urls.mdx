@@ -63,6 +63,20 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         	--header 'Content-Type: multipart/form-data' \
         	--form file=path/to/your/file.png
         ```
+
+        ### Response
+
+        The response you get back is like any other file upload using the other uploads API endpoints.
+
+        ```json
+        {
+          "data": {
+            "id": "7F9pGhN8qwErT1vx5aZk",
+            "url": "https://i.fmfile.com/7F9pGhN8qwErT1vx5aZk.jpg"
+          },
+          "status": "ok"
+        }
+        ```
       </Tab>
       <Tab title="Node">
         ```

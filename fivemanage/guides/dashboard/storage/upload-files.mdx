@@ -1,8 +1,73 @@
 ---
 title: "Upload files"
-description: "This guide goes over how to upload files to Fivemanage through the dashboard"
+description: "Learn how to upload images, videos, and audio files to Fivemanage and manage their retention settings."
 ---
 
-<Note>
-  Creating and uploding files to folders are planned for Q2 2026
-</Note>
+Fivemanage provides a robust storage system designed for high-performance media hosting. You can upload images, videos, and audio files directly through the dashboard with support for large files and automatic retention policies.
+
+## How to upload files
+
+Follow these steps to upload media to your team's storage:
+
+<Steps>
+  <Step title="Navigate to Storage">
+    Open your [Dashboard](https://fivemanage.com/dashboard) and select **Storage** from the sidebar menu.
+  </Step>
+
+  <Step title="Open the Upload Dialog">
+    Click the **Upload** button located at the top right of the storage interface.
+    
+    <Frame>
+      <img src="/images/guides/storage-upload-button.png" alt="Upload button in the storage dashboard" />
+    </Frame>
+  </Step>
+
+  <Step title="Select or Drag Files">
+    You can either click the dashed area to open your file browser or simply drag and drop your files directly into the dialog.
+    
+    <Note>
+      Fivemanage supports images, videos, and audio files up to **1GB** per file.
+    </Note>
+    
+    <Frame>
+      <img src="/images/guides/storage-upload-dialog.png" alt="Upload dialog with drag and drop zone" />
+    </Frame>
+  </Step>
+
+  <Step title="Configure Retention Exemption (Optional)">
+    If you want specific files to be kept permanently regardless of your team's auto-deletion policies, check the **Retention Exempt** box.
+    
+    <Info>
+      Files marked as **Retention Exempt** will never be automatically deleted by the system.
+    </Info>
+  </Step>
+
+  <Step title="Start the Upload">
+    Click **Upload All** to begin the process. You can monitor the progress of each file individually. Once finished, you'll receive a notification and the files will appear in your storage list.
+  </Step>
+</Steps>
+
+## Retention Exemption
+
+By default, Fivemanage may automatically delete older files based on your team's retention settings to help manage storage and costs. 
+
+### Why use Retention Exemption?
+- **Permanent Assets:** For logos, UI elements, or critical evidence that must never be deleted.
+- **Specific Overrides:** Allows you to keep individual files even if your general policy is set to 7 or 30 days.
+
+When a file is marked as exempt, it displays a badge in the dashboard to indicate it will be skipped during automatic cleanup.
+
+## Retention Policies & Quality
+
+You can manage your global retention policies in the **Storage Settings** tab.
+
+- **Per-type Retention:** Set different expiration periods for images, videos, and audio.
+- **Image Quality:** Optionally override image quality to optimize for storage space or performance.
+
+## Supported File Types
+
+| Category | Supported Formats | Max Size |
+| :--- | :--- | :--- |
+| **Images** | PNG, JPEG, GIF, WebP, etc. | 1 GB |
+| **Videos** | MP4, WebM, MOV, etc. | 1 GB |
+| **Audio** | MP3, WAV, OGG, etc. | 1 GB |

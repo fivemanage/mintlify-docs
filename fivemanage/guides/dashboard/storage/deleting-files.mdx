@@ -1,4 +1,69 @@
 ---
-title: 'Deleting files'
+title: "Deleting files"
+description: "Learn how to remove individual files or perform mass deletions from your storage."
 ---
 
+Fivemanage provides several ways to delete files, ranging from individual removal to bulk mass deletion based on date ranges.
+
+<Warning>
+  **Deletion is Permanent**
+  Deleting files from Fivemanage is irreversible. Once confirmed, the file and its associated data are permanently removed from our servers and cannot be recovered.
+</Warning>
+
+## Individual Deletion
+
+If you only need to remove a few specific files, you can do so directly from the storage list or grid view.
+
+<Steps>
+  <Step title="Select Files">
+    In the **Storage** dashboard, use the checkboxes next to the files you want to remove.
+  </Step>
+  <Step title="Click Delete">
+    The **Delete** button will appear at the top of the list once at least one item is selected.
+  </Step>
+  <Step title="Confirm">
+    A confirmation dialog will appear. Click **Confirm Delete** to permanently remove the selected items.
+  </Step>
+</Steps>
+
+## Mass Deletion (Danger Zone)
+
+For large-scale cleanup, Fivemanage offers a powerful **Mass Delete** tool in the Danger Zone. This is useful for clearing out months of old data that is no longer needed.
+
+<Info>
+  Mass deletion requires **Owner** permissions for the team.
+</Info>
+
+### How to use Mass Delete
+
+<Steps>
+  <Step title="Navigate to Danger Zone">
+    Go to **Storage** > **Danger Zone** in your dashboard.
+  </Step>
+  <Step title="Select Asset Types">
+    Choose which types of media you want to target (Images, Videos, or Audio). You can select one or all of them.
+  </Step>
+  <Step title="Choose a Date Range">
+    Select the start and end dates for the files you want to delete. The system will calculate how many files match your criteria.
+    
+    <Frame>
+      <img src="/images/guides/storage-mass-delete.png" alt="Mass delete interface with date range selector" />
+    </Frame>
+  </Step>
+  <Step title="Confirm with Team Name">
+    To prevent accidental deletion, you must confirm the total count of files before the process begins.
+  </Step>
+</Steps>
+
+## Important Considerations
+
+### Retention Exempt Files
+Files marked as **Retention Exempt** will still be deleted if you manually select them for deletion or if they fall within a Mass Deletion date range. Exemption only protects files from *automatic* cleanup policies.
+
+### Bulk Selection Tips
+- Use the **Search** bar to find specific groups of files (e.g., by extension or filename) before selecting them for deletion.
+- You can filter by **Media Type** to quickly select all videos or all audio files in the current view.
+
+<Card title="Manage Automatic Deletion" icon="clock" href="/fivemanage/guides/dashboard/storage/settings">
+  Learn how to set up automatic retention policies so you don't have to delete files manually.
+</Card>

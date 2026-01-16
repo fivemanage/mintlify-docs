@@ -53,7 +53,7 @@
                   {
                     "group": "Team",
                     "pages": [
-                      "fivemanage/guides/dashboard/team/manage-membesr",
+                      "fivemanage/guides/dashboard/team/manage-members",
                       "fivemanage/guides/dashboard/team/roles"
                     ]
                   },

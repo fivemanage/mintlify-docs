@@ -1,4 +1,92 @@
 ---
-title: 'Roles'
+title: "Team Roles & Permissions"
+description: "Understand the different access levels and permissions available for team members in Fivemanage."
 ---
 
+Fivemanage uses a role-based access control (RBAC) system to ensure your team members have the appropriate level of access to your resources. Each role comes with a set of default permissions that can be further customized.
+
+## Role Overview
+
+| Role | Description | Best For |
+| :--- | :--- | :--- |
+| **Owner** | Full control over the team, billing, and all settings. | Team creators and organization leads. |
+| **Admin** | High-level management access for members and settings. | Managers and team leads. |
+| **Developer** | Access to technical resources like logs and tokens. | Software engineers and developers. |
+| **Member** | Basic view-only access to the dashboard. | Observers or new team members. |
+
+## Detailed Role Breakdown
+
+<AccordionGroup>
+  <Accordion title="Owner" icon="crown">
+    The **Owner** role has absolute authority over the team.
+    
+    **Capabilities:**
+    - Manage billing and subscriptions.
+    - Change the team name and delete the team.
+    - Invite, remove, and change roles for all members (including Admins).
+    - Full access to all API tokens, logs, and integrations.
+    - Access to the Danger Zone for mass deletion.
+  </Accordion>
+
+  <Accordion title="Admin" icon="user-shield">
+    **Admins** can manage day-to-day operations and team settings.
+    
+    **Capabilities:**
+    - Invite new members and manage pending invitations.
+    - Update roles for Developer and Member roles.
+    - Configure storage settings and retention policies.
+    - Create and manage API tokens.
+    - Modify integrations (Discord, etc.).
+  </Accordion>
+
+  <Accordion title="Developer" icon="code">
+    **Developers** focus on the technical implementation and monitoring.
+    
+    **Capabilities:**
+    - View and copy API tokens (read-only by default).
+    - Access and search through logs.
+    - View storage assets and folders.
+    - Cannot change organizational settings or billing.
+  </Accordion>
+
+  <Accordion title="Member" icon="user">
+    **Members** have minimal access, primarily for viewing data.
+    
+    **Capabilities:**
+    - View the storage dashboard and assets.
+    - View basic team information.
+    - No management permissions by default.
+  </Accordion>
+</AccordionGroup>
+
+## Customizing Permissions
+
+While roles provide a starting point, Owners and Admins can fine-tune permissions for individual members.
+
+### Permission Categories
+
+- **Logs:** Control whether a user can read or search team logs.
+- **Tokens:** Granular control over reading existing tokens or creating new ones.
+- **Integrations:** Permission to modify external connections like Discord bots and webhooks.
+
+<Info>
+  **Note on Inheritance:** When you change a member's role, their permissions are automatically updated to the default for that new role. You can then manually toggle specific permissions if needed.
+</Info>
+
+## How to Change a Role
+
+<Steps>
+  <Step title="Go to Team Management">
+    Navigate to **Settings** > **Manage Team** in your dashboard.
+  </Step>
+  <Step title="Edit Member">
+    Find the member in the list and click the **Settings** (gear icon) next to their name.
+  </Step>
+  <Step title="Update Role & Save">
+    Select the new role from the dropdown menu and click **Save Changes**.
+  </Step>
+</Steps>
+
+<Warning>
+  Only the **Owner** can transfer ownership or remove other Owners. Admins cannot change the role of an Owner.
+</Warning>

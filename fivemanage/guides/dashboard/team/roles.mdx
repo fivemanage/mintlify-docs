@@ -7,52 +7,53 @@ Fivemanage uses a role-based access control (RBAC) system to ensure your team me
 
 ## Role Overview
 
-| Role | Description | Best For |
-| :--- | :--- | :--- |
-| **Owner** | Full control over the team, billing, and all settings. | Team creators and organization leads. |
-| **Admin** | High-level management access for members and settings. | Managers and team leads. |
-| **Developer** | Access to technical resources like logs and tokens. | Software engineers and developers. |
-| **Member** | Basic view-only access to the dashboard. | Observers or new team members. |
+| Role          | Description                                            | Best For                              |
+| :------------ | :----------------------------------------------------- | :------------------------------------ |
+| **Owner**     | Full control over the team, billing, and all settings. | Team creators and organization leads. |
+| **Admin**     | High-level management access for members and settings. | Managers and team leads.              |
+| **Developer** | Access to technical resources like logs and tokens.    | Software engineers and developers.    |
+| **Member**    | Basic view-only access to the dashboard.               | Staff, observers or new team members. |
 
 ## Detailed Role Breakdown
 
 <AccordionGroup>
   <Accordion title="Owner" icon="crown">
     The **Owner** role has absolute authority over the team.
-    
+
     **Capabilities:**
+
     - Manage billing and subscriptions.
     - Change the team name and delete the team.
     - Invite, remove, and change roles for all members (including Admins).
     - Full access to all API tokens, logs, and integrations.
     - Access to the Danger Zone for mass deletion.
   </Accordion>
-
   <Accordion title="Admin" icon="user-shield">
     **Admins** can manage day-to-day operations and team settings.
-    
+
     **Capabilities:**
+
     - Invite new members and manage pending invitations.
     - Update roles for Developer and Member roles.
     - Configure storage settings and retention policies.
     - Create and manage API tokens.
     - Modify integrations (Discord, etc.).
   </Accordion>
-
   <Accordion title="Developer" icon="code">
     **Developers** focus on the technical implementation and monitoring.
-    
+
     **Capabilities:**
+
     - View and copy API tokens (read-only by default).
     - Access and search through logs.
     - View storage assets and folders.
     - Cannot change organizational settings or billing.
   </Accordion>
-
   <Accordion title="Member" icon="user">
     **Members** have minimal access, primarily for viewing data.
-    
+
     **Capabilities:**
+
     - View the storage dashboard and assets.
     - View basic team information.
     - No management permissions by default.
@@ -77,7 +78,7 @@ While roles provide a starting point, Owners and Admins can fine-tune permission
 
 <Steps>
   <Step title="Go to Team Management">
-    Navigate to **Settings** > **Manage Team** in your dashboard.
+    Navigate to **Settings** \> **Manage Team** in your dashboard.
   </Step>
   <Step title="Edit Member">
     Find the member in the list and click the **Settings** (gear icon) next to their name.

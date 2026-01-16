@@ -77,7 +77,16 @@
               {
                 "group": "Integration",
                 "pages": [
-                  "guides/integration/lb-phone"
+                  "guides/integration/bug-report-system",
+                  "guides/integration/codem-phone",
+                  "guides/integration/jpr-phone",
+                  "guides/integration/lb-phone",
+                  "guides/integration/nphone",
+                  "guides/integration/quasar-smartphone",
+                  "guides/integration/reports-pro",
+                  "guides/integration/sharex",
+                  "guides/integration/tgiann",
+                  "guides/integration/yseries"
                 ]
               }
             ]

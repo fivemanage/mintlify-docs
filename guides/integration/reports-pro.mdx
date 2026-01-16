@@ -1,0 +1,21 @@
+---
+title: "RX ReportsPRO"
+description: "Learn how to integrate RX ReportsPRO with Fivemanage for screenshots."
+---
+
+To make screenshots work, you must configure the script. Currently, we only support Fivemanage for saving and retrieving screenshots.
+
+### FiveManage Setup
+
+1. Create an account at [fivemanage.com](https://fivemanage.com/)
+2. Go to **Tokens** and select **Create new token**
+3. Choose **Images only** as the token type and give it a name.
+
+### Script Configuration
+
+1. Copy your token and open `RxReportsPRO/config/sv_config.lua`
+2. Scroll to the bottom and paste your token in `Config.FIVEMANAGE_API_KEY`:
+
+```lua RxReportsPRO/config/sv_config.lua
+Config.FIVEMANAGE_API_KEY = 'your_token_here'
+```

@@ -1,0 +1,28 @@
+---
+title: "ShareX"
+description: "Learn how to configure ShareX as a custom uploader for Fivemanage."
+---
+
+To configure ShareX to upload directly to Fivemanage, follow these steps:
+
+### Configuring
+
+1. Open the ShareX main application.
+2. Navigate to **Destinations** > **Custom Uploader Settings**.
+3. Create a **New** uploader.
+4. Set the name to `Fivemanage`.
+5. Set the **Request URL** to `https://api.fivemanage.com/api/image`.
+6. Add a header: **Name** `Authorization`, **Value** `Your_Api_Key`.
+7. Set the **File Form Name** to `image`.
+8. Set the **URL** to `{json:url}`.
+9. Change your destination to **Custom Image Uploader**.
+
+<Frame>
+  <img src="https://i.imgur.com/alyKQoo.png" alt="ShareX Custom Uploader Settings 1" />
+</Frame>
+<Frame>
+  <img src="https://i.imgur.com/d5HQlOh.png" alt="ShareX Custom Uploader Settings 2" />
+</Frame>
+<Frame>
+  <img src="https://i.imgur.com/w1nWm6o.png" alt="ShareX Custom Uploader Settings 3" />
+</Frame>

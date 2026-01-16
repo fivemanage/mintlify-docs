@@ -1,0 +1,22 @@
+---
+title: "TGIANN"
+description: "Learn how to integrate TGIANN scripts with Fivemanage."
+---
+
+To integrate TGIANN scripts with Fivemanage, follow these steps:
+
+1. Open `tgiann-core\configs\screenshotConfig.lua`
+2. Set `screenshot.fivemManage.active` to `true`
+3. Set your **Fivemanage** API key in `screenshot.fivemManage.api`
+
+```lua tgiann-core\configs\screenshotConfig.lua
+screenshot = {
+    fivemanage     = {  -- https://fivemanage.com
+        active = true,  -- Set to true to enable Fivemanage
+        api = 'YOUR_API_KEY', -- Fivemanage API Key
+    },
+    discordWebhook = "" -- If 'fivemanage' is active, this will be ignored
+}
+```
+
+For more information, visit the [TGIANN Documentation](https://docs.tgiann.com/).

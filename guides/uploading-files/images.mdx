@@ -1,5 +1,5 @@
 ---
-description: "Display inline code and code blocks"
+description: "Upload images through the Fivemanage API"
 icon: "image"
 title: "Images"
 ---
@@ -95,6 +95,10 @@ axios.request(options).then(function (response) {
 
 #### FiveM
 
+<Info>
+  There is no way to upload files from Lua yet, but we are adding support for base64 uploads.
+</Info>
+
 There are a few ways to upload an image to the Image API. The easiest way is to use [Screenshot Basic](https://github.com/citizenfx/screenshot-basic).
 
 #### Screenshot Basic
@@ -114,7 +118,8 @@ There are a few ways to upload an image to the Image API. The easiest way is to 
     function(data)
         local resp = json.decode(data)
         if resp then
-            print(resp.url)
+    		-- the url is in resp.data.url	
+            print(resp.data.url)
         end
     end)
     ```
@@ -125,7 +130,7 @@ There are a few ways to upload an image to the Image API. The easiest way is to 
     exports['screenshot-basic']:requestScreenshotUpload('https://api.fivemanage.com/api/v2/image?apiKey=YOUR_API_TOKEN', 'file', function(data)
         local resp = json.decode(data)
         if resp then
-            print(resp.url)
+            print(resp.data.url)
         end
     end)
     ```

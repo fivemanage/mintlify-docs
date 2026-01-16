@@ -52,7 +52,10 @@
                   },
                   {
                     "group": "Team",
-                    "pages": []
+                    "pages": [
+                      "fivemanage/guides/dashboard/team/manage-membesr",
+                      "fivemanage/guides/dashboard/team/roles"
+                    ]
                   },
                   {
                     "group": "Storage",

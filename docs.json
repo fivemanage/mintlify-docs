@@ -56,7 +56,11 @@
                   },
                   {
                     "group": "Storage",
-                    "pages": []
+                    "pages": [
+                      "fivemanage/guides/dashboard/storage/upload-files",
+                      "fivemanage/guides/dashboard/storage/settings",
+                      "fivemanage/guides/dashboard/storage/deleting-files"
+                    ]
                   },
                   {
                     "group": "Logs",

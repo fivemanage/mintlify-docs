@@ -46,6 +46,22 @@
               {
                 "group": "Dashboard",
                 "pages": [
+                  {
+                    "group": "Boards",
+                    "pages": []
+                  },
+                  {
+                    "group": "Team",
+                    "pages": []
+                  },
+                  {
+                    "group": "Storage",
+                    "pages": []
+                  },
+                  {
+                    "group": "Logs",
+                    "pages": []
+                  },
                   "ai-tools/cursor",
                   "ai-tools/claude-code",
                   "ai-tools/windsurf"

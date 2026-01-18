@@ -1,33 +1,61 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Introduction'
+description: 'Build powerful integrations with the Fivemanage REST API.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+Welcome to the Fivemanage API reference. Our REST API allows you to programmatically manage your game media, centralize your logs, and integrate our high-performance infrastructure directly into your own applications and game scripts.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+All API requests should be made to the following base URL:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```http
+https://api.fivemanage.com/api
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+The Fivemanage API uses API Keys to authenticate requests. You can generate and manage your API keys from the [Tokens](https://app.fivemanage.com?to=/dashboard/:teamId/token) page in your dashboard.
+
+To authenticate a request, include your API key in the `Authorization` header:
+
+```http
+Authorization: YOUR_API_KEY
+```
+
+<Warning>
+  Your API keys carry significant privileges. Keep them secure and never share them in publicly accessible areas such as GitHub or client-side code.
+</Warning>
+
+## Core Features
+
+Our API is organized around the following core functionalities:
+
+<CardGroup cols={2}>
+  <Card title="Media Management" icon="images" href="/api-reference/image/upload-an-image">
+    Upload, list, and delete images, videos, and audio files. Manage your game's assets with ease.
+  </Card>
+  <Card title="Structured Logging" icon="terminal" href="/api-reference/logs/submit-logs-1">
+    Submit logs from your game servers to a centralized, searchable dashboard.
+  </Card>
+  <Card title="Presigned URLs" icon="link" href="/guides/uploading-files/presigned-urls">
+    Generate secure, temporary URLs for direct client-side uploads to our CDN.
+  </Card>
+  <Card title="SDK Integration" icon="bolt" href="/fivemanage/guides/logs/getting-started">
+    Manage SDK tokens and heartbeats for seamless integration with FiveM and Roblox.
+  </Card>
+</CardGroup>
+
+## Response Formats
+
+The API returns data in JSON format. Successful requests will typically return a `200 OK` or `201 Created` status code, while errors will return a descriptive error message and an appropriate HTTP status code (e.g., `400 Bad Request`, `401 Unauthorized`).
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "status": "ok",
+  "data": {
+    "id": "7F9pGhN8qwErT1vx5aZk",
+    "url": "https://i.fmfile.com/7F9pGhN8qwErT1vx5aZk.jpg"
   }
-]
+}
 ```

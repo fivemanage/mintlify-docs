@@ -44,6 +44,13 @@
                 ]
               },
               {
+                "group": "Logs",
+                "pages": [
+                  "fivemanage/guides/logs/getting-started",
+                  "fivemanage/guides/logs/game-integrations"
+                ]
+              },
+              {
                 "group": "Dashboard",
                 "pages": [
                   {

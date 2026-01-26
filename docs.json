@@ -117,10 +117,13 @@
             ]
           },
           {
-            "tab": "Node SDK"
+            "tab": "Roblox SDK"
           },
           {
-            "tab": "Roblox SDK"
+            "tab": "Hytale SDK"
+          },
+          {
+            "tab": "Node SDK"
           }
         ]
       },

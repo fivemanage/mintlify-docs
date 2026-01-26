@@ -111,7 +111,10 @@
             ]
           },
           {
-            "tab": "FiveM SDK"
+            "tab": "FiveM SDK",
+            "pages": [
+              "fivemanage/five-m-sdk/installation"
+            ]
           },
           {
             "tab": "Node SDK"

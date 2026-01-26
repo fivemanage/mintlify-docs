@@ -12,3 +12,23 @@ Once you've downloaded it, unzip it and drag it to your `/resources/`  directory
 <Warning>
   Make sure you place `fmsdk` in the root of `/resources/` , not inside of a `/resources/[category]` directory.
 </Warning>
+
+## Setting up FMDK
+
+<Steps>
+  <Step title="Create API Tokens">
+    If you haven't already, go to the Fivemanage dashboard and create a `Media` and `Logs`. You will need them configure FMSDK later.
+  </Step>
+  <Step title="Convars">
+    Inside of your `server.cfg` or a `*.cfg` you have, add:
+
+    ```
+    set FIVEMANAGE_MEDIA_API_KEY your_media_api_token
+    set FIVEMANAGE_LOGS_API_KEY your_logs_api_token
+    ```
+
+    <Note>
+      You can wrap the API tokens in double quotes (") or leave them be. Single quotes (') will not work.
+    </Note>
+  </Step>
+</Steps>

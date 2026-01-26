@@ -1,0 +1,135 @@
+---
+title: "Images"
+description: "Learn how to capture and upload images using the Fivemanage SDK."
+---
+
+The Fivemanage SDK provides easy-to-use exports for capturing screenshots from players and uploading them to the cloud.
+
+## Client-Side Exports
+
+### `takeImage`
+
+Captures a screenshot of the player's screen and uploads it to Fivemanage.
+
+**Definition:**
+```typescript
+takeImage(metadata?: Record<string, unknown>): Promise<{ url: string }>
+```
+
+**Usage:**
+
+<CodeGroup>
+```lua Lua
+local imageData = exports.fmsdk:takeImage({
+    name = "Player Screenshot",
+    description = "Captured via script"
+})
+
+if imageData then
+    print("Image uploaded to: " .. imageData.url)
+end
+```
+
+```javascript JavaScript
+exports.fmsdk.takeImage({
+    name: "Player Screenshot",
+    description: "Captured via script"
+}).then((imageData) => {
+    console.log("Image uploaded to: " + imageData.url);
+}).catch((err) => {
+    console.error("Failed to take image: " + err);
+});
+```
+</CodeGroup>
+
+---
+
+## Server-Side Exports
+
+### `takeServerImage`
+
+Requests a screenshot from a specific player and uploads it.
+
+**Definition:**
+```typescript
+takeServerImage(
+    playerSource: string | number, 
+    metadata?: Record<string, unknown>, 
+    timeout?: number
+): Promise<{ url: string }>
+```
+
+**Usage:**
+
+<CodeGroup>
+```lua Lua
+local playerSource = 1
+local success, imageData = pcall(function()
+    return exports.fmsdk:takeServerImage(playerSource, {
+        reason = "Admin investigation"
+    }, 10000) -- 10 second timeout
+end)
+
+if success then
+    print("Image uploaded: " .. imageData.url)
+else
+    print("Failed to capture image: " .. imageData)
+end
+```
+
+```javascript JavaScript
+const playerSource = 1;
+exports.fmsdk.takeServerImage(playerSource, {
+    reason: "Admin investigation"
+}, 10000).then((imageData) => {
+    console.log("Image uploaded: " + imageData.url);
+}).catch((err) => {
+    console.error("Failed to capture image: " + err);
+});
+```
+</CodeGroup>
+
+### `uploadImage`
+
+Uploads an image from a buffer directly from the server.
+
+**Definition:**
+```typescript
+uploadImage(
+    buffer: ArrayBuffer, 
+    options: { metadata?: Record<string, unknown>; fileName?: string }
+): Promise<{ url: string }>
+```
+
+**Usage:**
+
+<CodeGroup>
+```lua Lua
+-- Example: Uploading a file read from the server (requires appropriate permissions/tools)
+-- Note: Lua doesn't handle buffers as easily as JS, this is typically used in JS/TS.
+```
+
+```javascript JavaScript
+const fs = require('fs');
+const path = require('path');
+
+const filePath = path.join(GetResourcePath(GetCurrentResourceName()), 'image.png');
+const buffer = fs.readFileSync(filePath);
+
+exports.fmsdk.uploadImage(buffer, {
+    fileName: "server_file.png",
+    metadata: { source: "server_filesystem" }
+}).then((imageData) => {
+    console.log("Uploaded: " + imageData.url);
+});
+```
+</CodeGroup>
+
+## Metadata
+
+You can attach custom metadata to any image upload. This metadata is searchable and viewable in the Fivemanage dashboard.
+
+Common metadata fields:
+- `name`: A title for the image.
+- `description`: A longer description.
+- `playerSource`: If provided, the SDK can automatically link the image to a player.

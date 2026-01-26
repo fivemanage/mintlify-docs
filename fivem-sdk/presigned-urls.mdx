@@ -1,0 +1,76 @@
+---
+title: "Presigned URLs"
+description: "Generate secure, temporary URLs for direct media uploads."
+---
+
+Presigned URLs allow you to grant temporary permission to upload a file directly to Fivemanage without sharing your API key with the client.
+
+## Server-Side Export
+
+### `requestPresignedUrl`
+
+Requests a presigned URL from the Fivemanage API.
+
+**Definition:**
+```typescript
+requestPresignedUrl(fileType: "image" | "audio" | "video"): Promise<string>
+```
+
+**Usage:**
+
+<CodeGroup>
+```lua Lua
+local presignedUrl = exports.fmsdk:requestPresignedUrl("image")
+
+if presignedUrl then
+    print("Generated presigned URL: " .. presignedUrl)
+    -- You can now send this URL to a client to perform a direct upload
+end
+```
+
+```javascript JavaScript
+exports.fmsdk.requestPresignedUrl("video").then((url) => {
+    console.log("Generated presigned URL: " + url);
+}).catch((err) => {
+    console.error("Failed to get presigned URL: " + err);
+});
+```
+</CodeGroup>
+
+## How it works
+
+1. **Server Request**: Your server script calls `requestPresignedUrl`.
+2. **API Response**: Fivemanage returns a unique, time-limited URL.
+3. **Client Upload**: Your server sends this URL to the client (e.g., via a NUI callback or client event).
+4. **Direct Upload**: The client performs an HTTP PUT or POST request to that URL with the file data.
+
+This approach is more efficient for large files (like videos or high-quality audio) as the data doesn't need to pass through your FiveM server.
+
+## Example: Client-side Upload (Conceptual)
+
+**Server:**
+```lua
+RegisterNetEvent('myResource:getUploadUrl', function()
+    local src = source
+    local url = exports.fmsdk:requestPresignedUrl("image")
+    TriggerClientEvent('myResource:receiveUploadUrl', src, url)
+end)
+```
+
+**Client (NUI/JS):**
+```javascript
+// After receiving the URL from the server
+async function uploadFile(url, fileBlob) {
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: fileBlob,
+        headers: {
+            'Content-Type': 'image/png'
+        }
+    });
+    
+    if (response.ok) {
+        console.log("Upload successful!");
+    }
+}
+```

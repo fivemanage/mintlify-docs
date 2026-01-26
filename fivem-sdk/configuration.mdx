@@ -1,0 +1,89 @@
+---
+title: "Configuration"
+description: "Detailed explanation of the configuration options available in the Fivemanage SDK."
+---
+
+The Fivemanage SDK can be configured using both FiveM ConVars and a `config.json` file.
+
+## API Keys (ConVars)
+
+API keys are sensitive and should be set in your `server.cfg` using ConVars. This prevents them from being accidentally shared if you share your resource files.
+
+| ConVar | Description | Required For |
+| --- | --- | --- |
+| `FIVEMANAGE_MEDIA_API_KEY` | Your Fivemanage Media API key. | Images, Videos, Audio |
+| `FIVEMANAGE_LOGS_API_KEY` | Your Fivemanage Logs API key. | Cloud Logging |
+
+```cfg
+set FIVEMANAGE_MEDIA_API_KEY "your_media_api_key"
+set FIVEMANAGE_LOGS_API_KEY "your_logs_api_key"
+```
+
+## config.json
+
+The `config.json` file located in the `fmsdk` folder allows you to customize the behavior of the logging system and automatic events.
+
+### Logging Settings
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `logs.level` | `string` | `"info"` | The minimum log level to capture. Must be one of the levels defined in `logs.levels`. |
+| `logs.levels` | `string[]` | `["error", "warn", "info", "debug"]` | Defines the hierarchy of log levels. |
+| `logs.console` | `boolean` | `true` | Whether to print logs to the server console. |
+| `logs.enableCloudLogging` | `boolean` | `true` | Whether to send logs to the Fivemanage cloud. |
+| `logs.appendPlayerIdentifiers` | `boolean` | `true` | Automatically append player identifiers (license, discord, etc.) to logs when `playerSource` is provided. |
+| `logs.excludedPlayerIdentifiers` | `string[]` | `["ip"]` | List of identifier types to exclude from logs for privacy. |
+| `logs.excludeInDepthMetadata` | `boolean` | `false` | If true, excludes some internal metadata like server session IDs. |
+
+### Automatic Events
+
+The SDK can automatically log certain server events to specific datasets.
+
+| Property | Description |
+| --- | --- |
+| `logs.playerEvents` | Logs player connections and disconnections. |
+| `logs.chatEvents` | Logs all chat messages (can result in high log volume). |
+| `logs.baseEvents` | Logs base events like `onResourceStart`, `onResourceStop`. |
+| `logs.txAdminEvents` | Logs actions performed via txAdmin. |
+| `logs.oxInventoryEvents` | Logs inventory actions if using `ox_inventory`. |
+
+Each event category has the following structure:
+
+```json
+"playerEvents": {
+  "enabled": false,
+  "dataset": "default"
+}
+```
+
+- `enabled`: Set to `true` to enable automatic logging for this category.
+- `dataset`: The name of the dataset in Fivemanage where these logs should be sent.
+
+## Example config.json
+
+```json
+{
+  "$schema": "./config.schema.json",
+  "logs": {
+    "level": "info",
+    "levels": ["error", "warn", "info", "debug"],
+    "console": true,
+    "enableCloudLogging": true,
+    "appendPlayerIdentifiers": true,
+    "excludedPlayerIdentifiers": ["ip"],
+    "excludeInDepthMetadata": false,
+    "playerEvents": {
+      "enabled": true,
+      "dataset": "connections"
+    },
+    "chatEvents": {
+      "enabled": false,
+      "dataset": "chat"
+    },
+    "oxInventoryEvents": {
+      "enabled": true,
+      "dataset": "inventory"
+    }
+  }
+}
+```

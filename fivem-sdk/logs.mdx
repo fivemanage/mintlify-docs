@@ -1,0 +1,107 @@
+---
+title: "Logs"
+description: "Centralize your server logs with the Fivemanage SDK."
+---
+
+The Fivemanage SDK provides a robust logging system that can send logs to the Fivemanage cloud, print them to the console, and automatically include player identifiers.
+
+## Server-Side Exports
+
+### `Log`
+
+The primary export for sending logs to a specific dataset.
+
+**Definition:**
+```typescript
+Log(
+    datasetId: string, 
+    level: string, 
+    message: string, 
+    metadata?: { 
+        playerSource?: string | number, 
+        targetSource?: string | number, 
+        [key: string]: unknown 
+    }
+): void
+```
+
+**Usage:**
+
+<CodeGroup>
+```lua Lua
+exports.fmsdk:Log("economy", "info", "Player purchased an item", {
+    playerSource = source,
+    item = "Pistol",
+    price = 500
+})
+```
+
+```javascript JavaScript
+exports.fmsdk.Log("economy", "info", "Player purchased an item", {
+    playerSource: source,
+    item: "Pistol",
+    price: 500
+});
+```
+</CodeGroup>
+
+### Shorthand Exports
+
+For convenience, the SDK provides shorthands for common log levels. These always send to the specified dataset.
+
+- `Info(datasetId, message, metadata)`
+- `Warn(datasetId, message, metadata)`
+- `Error(datasetId, message, metadata)`
+
+**Usage:**
+```lua
+exports.fmsdk:Info("default", "Server started successfully")
+exports.fmsdk:Error("anticheat", "Suspicious activity detected", { playerSource = source })
+```
+
+### `LogMessage`
+
+A legacy/shorthand export that sends logs to the `"default"` dataset.
+
+```lua
+exports.fmsdk:LogMessage("info", "This goes to the default dataset")
+```
+
+---
+
+## Datasets
+
+Datasets allow you to categorize your logs in the Fivemanage dashboard. You can create different datasets for different purposes, such as `economy`, `anticheat`, `admin_actions`, etc.
+
+If a dataset name is provided that doesn't exist, it will be created automatically (depending on your Fivemanage plan/settings).
+
+---
+
+## Automatic Player Identifiers
+
+When you include `playerSource` or `targetSource` in the metadata, the SDK automatically fetches and appends player identifiers (License, Discord, Steam, etc.) to the log entry.
+
+This makes it incredibly easy to track actions back to specific players without manually gathering identifiers every time.
+
+```lua
+exports.fmsdk:Log("kills", "info", "Player killed another player", {
+    playerSource = killerSource,
+    targetSource = victimSource,
+    weapon = "CombatPistol"
+})
+```
+
+---
+
+## Automatic Event Logging
+
+The SDK can be configured to automatically log common FiveM events. This is managed in the `config.json` file.
+
+Supported automatic events:
+- **Player Events**: Connections, disconnections.
+- **Chat Events**: All chat messages.
+- **Base Events**: Resource starts/stops.
+- **txAdmin Events**: Admin actions.
+- **ox_inventory**: Item movements, purchases, etc. (if installed).
+
+See the [Configuration](/fivem-sdk/configuration) page for how to enable these.

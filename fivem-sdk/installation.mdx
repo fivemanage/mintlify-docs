@@ -1,34 +1,57 @@
 ---
 title: "Installation"
-description: "Quick guide on how to install and configure FMSDK"
+description: "Learn how to install and set up the Fivemanage SDK on your FiveM server."
 ---
 
-## Download FMSDK
+## Prerequisites
 
-Start by downloading the [latest release](https://github.com/fivemanage/sdk/releases/latest) from GitHub. Make sure you download `fmsdk.zip` .
+Before installing the SDK, ensure you have the following:
 
-Once you've downloaded it, unzip it and drag it to your `/resources/`  directory.
+- A Fivemanage account and API keys (Media and Logs).
+- **[screenshot-basic](https://github.com/citizenfx/screenshot-basic)**: Required for capturing client screenshots.
 
-<Warning>
-  Make sure you place `fmsdk` in the root of `/resources/` , not inside of a `/resources/[category]` directory.
-</Warning>
-
-## Setting up FMDK
+## Installation Steps
 
 <Steps>
-  <Step title="Create API Tokens">
-    If you haven't already, go to the Fivemanage dashboard and create a `Media` and `Logs`. You will need them configure FMSDK later.
+  <Step title="Download the SDK">
+    Obtain the latest release of the Fivemanage SDK from the [GitHub releases page](https://github.com/fivemanage/sdk/releases/latest). Download the `fmsdk.zip` file.
   </Step>
-  <Step title="Convars">
-    Inside of your `server.cfg` or a `*.cfg` you have, add:
+  <Step title="Extract to Resources">
+    Unzip the `fmsdk.zip` and place the `fmsdk` folder into your FiveM server's `resources` directory.
 
+    <Warning>
+      Ensure the folder is named `fmsdk` and is placed directly in the `resources` folder (or a sub-category folder if you prefer, but `fmsdk` must be the resource name).
+    </Warning>
+  </Step>
+  <Step title="Install Dependencies">
+    If you don't have `screenshot-basic` installed, download it and add it to your `resources` folder. This is essential for the `takeImage` functionality.
+  </Step>
+  <Step title="Configure server.cfg">
+    Add the following lines to your `server.cfg`. Ensure `screenshot-basic` starts **before** `fmsdk`.
+
+    ```cfg
+    ensure screenshot-basic
+    ensure fmsdk
     ```
-    set FIVEMANAGE_MEDIA_API_KEY your_media_api_token
-    set FIVEMANAGE_LOGS_API_KEY your_logs_api_token
+  </Step>
+  <Step title="Set API Keys">
+    Add your Fivemanage API keys as ConVars in your `server.cfg`:
+
+    ```cfg
+    set FIVEMANAGE_MEDIA_API_KEY "your_media_api_key"
+    set FIVEMANAGE_LOGS_API_KEY "your_logs_api_key"
     ```
 
     <Note>
-      You can wrap the API tokens in double quotes (") or leave them be. Single quotes (') will not work.
+      You only need to set the keys for the features you plan to use.
     </Note>
   </Step>
 </Steps>
+
+## Configuration
+
+After installation, you can further customize the SDK's behavior by editing the `config.json` file located within the `fmsdk` resource folder.
+
+<Card title="Configuration Guide" icon="gear" href="/fivem-sdk/configuration">
+  Explore all available configuration options in config.json.
+</Card>

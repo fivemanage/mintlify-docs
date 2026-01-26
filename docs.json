@@ -113,7 +113,12 @@
           {
             "tab": "FiveM SDK",
             "pages": [
-              "fivem-sdk/installation"
+              "fivem-sdk/introduction",
+              "fivem-sdk/installation",
+              "fivem-sdk/configuration",
+              "fivem-sdk/images",
+              "fivem-sdk/logs",
+              "fivem-sdk/presigned-urls"
             ]
           },
           {

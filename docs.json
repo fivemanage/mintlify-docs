@@ -112,13 +112,23 @@
           },
           {
             "tab": "FiveM SDK",
-            "pages": [
-              "fivem-sdk/introduction",
-              "fivem-sdk/installation",
-              "fivem-sdk/configuration",
-              "fivem-sdk/images",
-              "fivem-sdk/logs",
-              "fivem-sdk/presigned-urls"
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": [
+                  "fivem-sdk/introduction",
+                  "fivem-sdk/installation",
+                  "fivem-sdk/configuration"
+                ]
+              },
+              {
+                "group": "Using the SDK",
+                "pages": [
+                  "fivem-sdk/images",
+                  "fivem-sdk/logs",
+                  "fivem-sdk/presigned-urls"
+                ]
+              }
             ]
           },
           {

@@ -1,0 +1,46 @@
+---
+title: "Installation"
+description: "How to install the Fivemanage Logger plugin on your Hytale server."
+---
+
+Installing the Fivemanage Logger is a straightforward process. Follow these steps to get started.
+
+## Prerequisites
+
+*   A Hytale dedicated server.
+*   Access to your server's `mods` directory.
+
+## Step-by-Step Installation
+
+### 1. Download the Plugin
+Download the latest version of the Fivemanage Logger `.jar` file from the [official releases page](https://github.com/fivemanage/hytale-sdk/releases).
+
+### 2. Upload to Server
+Place the downloaded `.jar` file into your Hytale server's `mods` directory.
+
+```bash
+/your-server-root/
+└── mods/
+    └── Fivemanage_Logger.jar
+```
+
+### 3. Create Configuration Directory
+The plugin expects a configuration file in a specific directory. Create a folder named `Fivemanage_Logger` inside your `mods` directory.
+
+### 4. Create Configuration File
+Inside the `Fivemanage_Logger` folder, create a file named `config.json`. You can use the [Configuration](/hytale-sdk/configuration) guide to set up your preferred logging provider.
+
+```bash
+/your-server-root/
+└── mods/
+    └── Fivemanage_Logger/
+        └── config.json
+```
+
+### 5. Restart Server
+Restart your Hytale server to load the plugin. Check the server console to verify that the plugin has initialized correctly.
+
+<Note>
+  If the plugin is working correctly, you should see a message in the console:
+  `[FivemanageLogger] Initialized with provider: <provider_name>`
+</Note>

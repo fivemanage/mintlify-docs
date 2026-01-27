@@ -1,0 +1,77 @@
+---
+title: "Best Practices"
+description: "How to log effectively for powerful dashboards and analytics."
+---
+
+To get the most value out of your logs in Fivemanage or Grafana, it's important to follow consistent logging patterns. This guide covers best practices for structuring your logs and metadata.
+
+## 1. Metadata is King
+
+While the log message tells you *what* happened, metadata tells you *who*, *where*, and *how*. Always prefer metadata over embedding variables in the message string.
+
+<CodeGroup>
+```java Good
+// Easy to query: count logs where item_id = 'diamond'
+Map<String, Object> metadata = Map.of("player", "Steve", "item_id", "diamond");
+FivemanageLogger.info("economy", "Item purchased", metadata);
+```
+
+```java Bad
+// Hard to query: requires regex or full-text search
+FivemanageLogger.info("economy", "Steve purchased a diamond", null);
+```
+</CodeGroup>
+
+## 2. Consistent Naming Conventions
+
+Use a consistent naming convention for your metadata keys. We recommend using `snake_case`.
+
+*   `player_id` instead of `PlayerID` or `playerID`
+*   `world_name` instead of `world`
+*   `item_amount` instead of `qty`
+
+## 3. Categorize with Datasets
+
+Think of datasets as high-level categories for your logs. This makes it much easier to organize your dashboards.
+
+| Dataset | Use Case |
+| :--- | :--- |
+| `player-events` | Joins, leaves, deaths, level-ups. |
+| `economy` | Transactions, shop purchases, currency changes. |
+| `combat` | PVP kills, PVE encounters, boss fights. |
+| `admin` | Command usage, bans, kicks, config changes. |
+| `errors` | Plugin exceptions, failed API calls, database issues. |
+
+## 4. Log Levels Matter
+
+Use the appropriate log level to help you filter noise in your dashboards.
+
+*   **INFO:** Normal server operations (e.g., "Player joined").
+*   **WARN:** Something unusual happened but the server is still running fine (e.g., "Player tried to use a disabled command").
+*   **ERROR:** Something failed and needs attention (e.g., "Failed to save player data").
+*   **DEBUG:** Verbose information for development and troubleshooting.
+
+## 5. Designing for Dashboards
+
+When logging data that you want to visualize:
+
+*   **Counters:** Log an event every time something happens (e.g., "Block broken"). In Grafana, you can then use `count()` to see the rate of blocks broken per minute.
+*   **Gauges:** Log the current state of something (e.g., "Current online players").
+*   **Timings:** Log how long an operation took in metadata (e.g., `process_time_ms: 45`). This allows you to create heatmaps and latency graphs.
+
+## Example: Tracking Economy
+
+If you want to create a dashboard showing the total currency in circulation:
+
+```java
+Map<String, Object> metadata = new HashMap<>();
+metadata.put("player_id", player.getUniqueId().toString());
+metadata.put("change_amount", 500);
+metadata.put("new_balance", 1500);
+metadata.put("reason", "quest_reward");
+metadata.put("quest_id", "daily_mining");
+
+FivemanageLogger.info("economy", "Balance updated", metadata);
+```
+
+In Grafana, you could then easily create a graph of `sum(new_balance)` or see which quests are giving out the most rewards by grouping by `quest_id`.

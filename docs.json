@@ -137,7 +137,11 @@
           {
             "tab": "Hytale SDK",
             "pages": [
-              "hytale-sdk/introduction"
+              "hytale-sdk/introduction",
+              "hytale-sdk/installation",
+              "hytale-sdk/configuration",
+              "hytale-sdk/usage",
+              "hytale-sdk/best-practices"
             ]
           },
           {

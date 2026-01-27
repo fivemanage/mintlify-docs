@@ -1,0 +1,69 @@
+---
+title: "Usage"
+description: "How to use the Fivemanage Logger API in your own Hytale mods."
+---
+
+The Fivemanage Logger provides a simple static API that you can use in your own Hytale mods to send custom logs and analytics.
+
+## Adding the Dependency
+
+To use the API, you need to include the Fivemanage Logger as a dependency in your project.
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>org.fivemanage</groupId>
+    <artifactId>Fivemanage</artifactId>
+    <version>1.0.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+## Logging Methods
+
+The `FivemanageLogger` class provides several static methods for different log levels. Every method requires a `dataset` name, a `message`, and an optional `metadata` map.
+
+### Log Levels
+
+```java
+import com.fivemanage.FivemanageLogger;
+import java.util.Map;
+
+// Info level
+FivemanageLogger.info("my-mod", "Something happened", metadata);
+
+// Warning level
+FivemanageLogger.warn("my-mod", "Something might be wrong", metadata);
+
+// Error level
+FivemanageLogger.error("my-mod", "Something went wrong!", metadata);
+
+// Debug level
+FivemanageLogger.debug("my-mod", "Detailed debug information", metadata);
+```
+
+## Using Metadata
+
+Metadata is a powerful way to add context to your logs. It allows you to filter and aggregate data in your dashboards.
+
+```java
+import com.fivemanage.FivemanageLogger;
+import java.util.HashMap;
+import java.util.Map;
+
+Map<String, Object> metadata = new HashMap<>();
+metadata.put("player_name", player.getName());
+metadata.put("player_id", player.getId().toString());
+metadata.put("location", player.getPosition().toString());
+metadata.put("item_id", "hytale:stone");
+
+FivemanageLogger.info("player-actions", "Player mined a block", metadata);
+```
+
+## Best Practices for API Usage
+
+1.  **Use Descriptive Datasets:** Group related logs into datasets (e.g., `economy`, `combat`, `admin-actions`).
+2.  **Consistent Metadata Keys:** Use consistent keys for metadata across different logs to make querying easier (e.g., always use `player_id` instead of mixing `uuid`, `player_uuid`, and `id`).
+3.  **Avoid High Cardinality in Messages:** Keep the `message` string relatively static and put variable data (like player names or coordinates) into the `metadata`.
+4.  **Don't Log Sensitive Info:** Never log passwords, private keys, or sensitive player information.

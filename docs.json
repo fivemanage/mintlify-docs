@@ -137,12 +137,21 @@
           },
           {
             "tab": "Hytale SDK",
-            "pages": [
-              "hytale-sdk/introduction",
-              "hytale-sdk/installation",
-              "hytale-sdk/configuration",
-              "hytale-sdk/usage",
-              "hytale-sdk/best-practices"
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": [
+                  "hytale-sdk/introduction",
+                  "hytale-sdk/installation"
+                ]
+              },
+              {
+                "group": "Usage",
+                "pages": [
+                  "hytale-sdk/configuration",
+                  "hytale-sdk/usage"
+                ]
+              }
             ]
           },
           {

@@ -135,7 +135,10 @@
             "tab": "Roblox SDK"
           },
           {
-            "tab": "Hytale SDK"
+            "tab": "Hytale SDK",
+            "pages": [
+              "fivemanage/hytale-sdk/introduction"
+            ]
           },
           {
             "tab": "Node SDK"

@@ -1,6 +1,7 @@
 ---
 title: "Configuration"
 description: "Configure your logging providers and event tracking."
+icon: "pen-ruler"
 ---
 
 The Fivemanage Logger is configured using a `config.json` file located in `mods/Fivemanage_Logger/config.json`.
@@ -28,21 +29,22 @@ The configuration is divided into two main sections: `LogProvider` and `PlayerEv
 
 ## Log Provider Options
 
-| Option | Type | Description |
-| :--- | :--- | :--- |
-| `Provider` | `string` | The logging backend to use: `fivemanage`, `grafana-loki`, or `file`. |
-| `ApiKey` | `string` | Your Fivemanage API key (required for `fivemanage` provider). |
-| `Endpoint` | `string` | The Loki push endpoint URL (required for `grafana-loki`). |
-| `Username` | `string` | Basic auth username for Grafana Loki. |
-| `Password` | `string` | Basic auth password/API key for Grafana Loki. |
-| `WriteToDisk` | `boolean` | If `true`, logs will also be written to local files in the `logs` directory. |
-| `EnableBatching` | `boolean` | Whether to buffer logs before sending them to the provider. |
-| `BufferSize` | `integer` | Number of logs to buffer before flushing (default: `10`). |
-| `FlushIntervalMs` | `integer` | Maximum time (in ms) to wait before flushing the buffer (default: `5000`). |
+| Option            | Type      | Description                                                                  |
+| :---------------- | :-------- | :--------------------------------------------------------------------------- |
+| `Provider`        | `string`  | The logging backend to use: `fivemanage`, `grafana-loki`, or `file`.         |
+| `ApiKey`          | `string`  | Your Fivemanage API key (required for `fivemanage` provider).                |
+| `Endpoint`        | `string`  | The Loki push endpoint URL (required for `grafana-loki`).                    |
+| `Username`        | `string`  | Basic auth username for Grafana Loki.                                        |
+| `Password`        | `string`  | Basic auth password/API key for Grafana Loki.                                |
+| `WriteToDisk`     | `boolean` | If `true`, logs will also be written to local files in the `logs` directory. |
+| `EnableBatching`  | `boolean` | Whether to buffer logs before sending them to the provider.                  |
+| `BufferSize`      | `integer` | Number of logs to buffer before flushing (default: `10`).                    |
+| `FlushIntervalMs` | `integer` | Maximum time (in ms) to wait before flushing the buffer (default: `5000`).   |
 
 ## Provider Specifics
 
 ### Fivemanage Cloud
+
 To use Fivemanage Cloud, set the provider to `fivemanage` and provide your API key.
 
 ```json
@@ -53,6 +55,7 @@ To use Fivemanage Cloud, set the provider to `fivemanage` and provide your API k
 ```
 
 ### Grafana Loki
+
 To send logs to Grafana Loki or Grafana Cloud, use the `grafana-loki` provider.
 
 ```json
@@ -66,15 +69,15 @@ To send logs to Grafana Loki or Grafana Cloud, use the `grafana-loki` provider.
 
 ## Player Events Options
 
-| Option | Type | Description |
-| :--- | :--- | :--- |
-| `Dataset` | `string` | The name of the dataset (or label) where player events will be stored. |
+| Option    | Type      | Description                                                                                |
+| :-------- | :-------- | :----------------------------------------------------------------------------------------- |
+| `Dataset` | `string`  | The name of the dataset (or label) where player events will be stored.                     |
 | `Enabled` | `boolean` | If `true`, the plugin will automatically log player connect, ready, and disconnect events. |
 
 ### Automatically Tracked Events
 
 When `PlayerEvents.Enabled` is set to `true`, the following events are captured:
 
-*   **Player Connect:** Logged when a player initiates a connection.
-*   **Player Ready:** Logged when a player has fully loaded into the world.
-*   **Player Disconnect:** Logged when a player leaves the server.
+- **Player Connect:** Logged when a player initiates a connection.
+- **Player Ready:** Logged when a player has fully loaded into the world.
+- **Player Disconnect:** Logged when a player leaves the server.

@@ -1,6 +1,7 @@
 ---
 title: "Usage"
 description: "How to use the Fivemanage Logger API in your own Hytale mods."
+icon: "code"
 ---
 
 The Fivemanage Logger provides a simple static API that you can use in your own Hytale mods to send custom logs and analytics.
@@ -63,7 +64,7 @@ FivemanageLogger.info("player-actions", "Player mined a block", metadata);
 
 ## Best Practices for API Usage
 
-1.  **Use Descriptive Datasets:** Group related logs into datasets (e.g., `economy`, `combat`, `admin-actions`).
-2.  **Consistent Metadata Keys:** Use consistent keys for metadata across different logs to make querying easier (e.g., always use `player_id` instead of mixing `uuid`, `player_uuid`, and `id`).
-3.  **Avoid High Cardinality in Messages:** Keep the `message` string relatively static and put variable data (like player names or coordinates) into the `metadata`.
-4.  **Don't Log Sensitive Info:** Never log passwords, private keys, or sensitive player information.
+1. **Use Descriptive Datasets:** Group related logs into datasets (e.g., `economy`, `combat`, `admin-actions`).
+2. **Consistent Metadata Keys:** Use consistent keys for metadata across different logs to make querying easier (e.g., always use `player_id` instead of mixing `uuid`, `player_uuid`, and `id`).
+3. **Avoid High Cardinality in Messages:** Keep the `message` string relatively static and put variable data (like player names or coordinates) into the `metadata`.
+4. **Don't Log Sensitive Info:** Never log passwords, private keys, or sensitive player information.

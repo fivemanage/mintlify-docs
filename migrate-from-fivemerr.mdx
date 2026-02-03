@@ -1,6 +1,6 @@
 ---
-title: 'Migrate from Fivemerr'
-description: 'Learn how to migrate your files from Fivemerr to Fivemanage'
+title: "Migrate from Fivemerr"
+description: "Learn how to migrate your files from Fivemerr to Fivemanage"
 ---
 
 Fivemerr is shutting down, but you can easily move all your files to Fivemanage using our automated migration tool. This guide will walk you through the process.
@@ -9,22 +9,24 @@ Fivemerr is shutting down, but you can easily move all your files to Fivemanage 
 
 Before you begin, make sure you have:
 
-1.  A [Fivemanage account](https://app.fivemanage.com).
-2.  Created a team on Fivemanage.
+1. A [Fivemanage account](https://app.fivemanage.com).
+2. Created a team on Fivemanage.
 
 ## Step 1: Export Data from Fivemerr
 
 First, you need to get the list of your files from Fivemerr.
 
-1.  Log in to your **Fivemerr dashboard**.
-2.  Navigate to the settings or export section.
-3.  Click on **Export CSV** to download a file containing all your file URLs.
+1. Log in to your **Fivemerr dashboard**.
+2. Navigate to the settings or export section.
+3. Click on **Export CSV** to download a file containing all your file URLs.
 
 <img
   className="block dark:hidden"
-  src="/images/fivemerr-export-light.png"
+  src="/fivmerr_export_image.png"
   alt="Fivemerr Export Dashboard"
+  title=""
 />
+
 <img
   className="hidden dark:block"
   src="/images/fivemerr-export-dark.png"
@@ -35,17 +37,17 @@ First, you need to get the list of your files from Fivemerr.
 
 Once you have your CSV file, head over to Fivemanage.
 
-1.  Go to your [Fivemanage Dashboard](https://app.fivemanage.com).
-2.  Select your team.
-3.  Navigate to **Storage** > **Migration**.
-4.  Drag and drop your Fivemerr CSV file into the upload area.
+1. Go to your [Fivemanage Dashboard](https://app.fivemanage.com).
+2. Select your team.
+3. Navigate to **Storage** \> **Migration**.
+4. Drag and drop your Fivemerr CSV file into the upload area.
 
 ## Step 3: Review and Migrate
 
 After uploading the CSV, you'll see a preview of the files to be migrated.
 
-*   **File Stats**: You'll see the total number of files and their total size.
-*   **Retention Exemption**: You can choose to **exempt these files from retention policies**. This ensures they are never automatically deleted, even if you enable retention rules later.
+- **File Stats**: You'll see the total number of files and their total size.
+- **Retention Exemption**: You can choose to **exempt these files from retention policies**. This ensures they are never automatically deleted, even if you enable retention rules later.
 
 Click **Start Migration** to begin the process.
 
@@ -55,9 +57,11 @@ The migration runs in the background. You can close the tab and come back later,
 
 <img
   className="block dark:hidden"
-  src="/images/migration-progress-light.png"
+  src="/Screenshot2026-02-03at14.36.17.png"
   alt="Migration in Progress"
+  title=""
 />
+
 <img
   className="hidden dark:block"
   src="/images/migration-progress-dark.png"
@@ -72,8 +76,8 @@ The status will change from **Queued** to **Processing** as files are downloaded
 
 If you are on the **Free Tier**, you have a 10GB storage limit. However, for this migration:
 
-*   **You CAN migrate more than 10GB**: We allow you to migrate your entire Fivemerr library, even if it exceeds the 10GB free limit.
-*   **Upload Restriction**: Once you exceed the 10GB limit, you will **not be able to upload new files** until you upgrade your plan or delete files to get back under the limit.
+- **You CAN migrate more than 10GB**: We allow you to migrate your entire Fivemerr library, even if it exceeds the 10GB free limit.
+- **Upload Restriction**: Once you exceed the 10GB limit, you will **not be able to upload new files** until you upgrade your plan or delete files to get back under the limit.
 
 <Tip>
   Use code **FIVEMERR50** for 50% off your first month of any paid plan if you need more storage!
@@ -87,7 +91,7 @@ Large video files may take longer to process. Our system handles files of any si
 
 We preserve your original Fivemerr file paths to make the transition as easy as possible. You only need to replace the domain in your scripts or configuration files.
 
-*   **Old URL**: `https://files.fivemerr.com/images/example.png`
-*   **New URL**: `https://r2.fivemanage.com/images/example.png`
+- **Old URL**: `https://files.fivemerr.com/images/example.png`
+- **New URL**: `https://r2.fivemanage.com/images/example.png`
 
 Simply find and replace `files.fivemerr.com` with `r2.fivemanage.com` in your codebase, and your files will continue to work seamlessly.

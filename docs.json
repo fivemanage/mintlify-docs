@@ -30,6 +30,7 @@
               {
                 "group": "Getting started",
                 "pages": [
+                  "migrate-from-fivemerr",
                   "index",
                   "quickstart"
                 ]

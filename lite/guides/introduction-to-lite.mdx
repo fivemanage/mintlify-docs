@@ -1,4 +1,37 @@
 ---
-title: 'Introduction to Lite'
+title: 'Introduction to Fivemanage Lite'
+description: 'An overview of the open-source, self-hosted version of Fivemanage.'
 ---
 
+# Fivemanage Lite
+
+## Introduction
+
+**Fivemanage Lite** is the open-source, self-hosted edition of the Fivemanage platform. It is a lightweight yet powerful backend solution designed specifically for gaming communities (such as FiveM) to handle infrastructure needs without relying on external SaaS providers.
+
+The project is built as a stateless **Go** backend paired with a modern **React** dashboard. It focuses on three core operational pillars:
+
+*   **Media Hosting**: A centralized asset store compatible with S3 providers (AWS, Cloudflare R2, MinIO).
+*   **Structured Logging**: High-throughput log ingestion powered by ClickHouse, allowing for real-time searching and filtering of game events.
+*   **Multi-Tenant Management**: Built-in support for organizations, members, and API token management.
+
+## Features
+
+Fivemanage Lite comes packed with essential features for community management:
+
+- **Multi-tenant organization support**: Manage multiple groups or communities from a single instance.
+- **File storage**: Seamless integration with S3-compatible providers (AWS S3, Cloudflare R2, MinIO) for handling user uploads and assets.
+- **High-performance logging**: Powered by ClickHouse to ingest and query millions of log entries with minimal latency.
+- **Authentication**: Built-in session management and secure authentication flows.
+- **Observability**: Native OpenTelemetry integration for tracing and performance monitoring.
+- **Modern Dashboard**: A responsive, React-based administrative interface for managing your instance.
+
+## Architecture
+
+Fivemanage Lite is designed to be stateless and scalable. It offloads persistence to specialized services, ensuring reliability and performance.
+
+- **Backend**: Written in Go, providing a fast and efficient API.
+- **Frontend**: A React application serving as the control plane.
+- **Database**: PostgreSQL for relational data (users, settings).
+- **Log Store**: ClickHouse for high-volume event logging.
+- **Object Storage**: S3-compatible API for file persistence.

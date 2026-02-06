@@ -168,12 +168,24 @@
         "tabs": [
           {
             "tab": "Guides",
-            "pages": [
-              "lite/guides/introduction-to-lite"
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "lite/guides/introduction-to-lite",
+                  "lite/guides/quickstart",
+                  "lite/guides/configuration",
+                  "lite/guides/contributing"
+                ]
+              },
+              {
+                "group": "Logs & Storage",
+                "pages": [
+                  "lite/guides/logs-storage/clickhouse",
+                  "lite/guides/logs-storage/minio"
+                ]
+              }
             ]
-          },
-          {
-            "tab": "Overview"
           }
         ]
       }

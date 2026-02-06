@@ -1,0 +1,101 @@
+---
+title: 'Quickstart'
+description: 'Get Fivemanage Lite up and running in minutes using Docker.'
+---
+
+# Quickstart
+
+You can deploy Fivemanage Lite using the pre-built Docker image or by orchestrating the entire stack with Docker Compose.
+
+## Option A: Production Docker Run
+
+If you already have your databases (Postgres/ClickHouse) running, you can start the application container directly.
+
+```bash
+docker run -d \
+  --name fivemanage-lite \
+  -p 8080:8080 \
+  -e DSN="postgres://user:password@your-postgres-host:5432/fivemanage?sslmode=disable" \
+  -e CLICKHOUSE_HOST="your-clickhouse-host:9000" \
+  -e ADMIN_PASSWORD="secure_admin_password" \
+  -e API_TOKEN_HMAC_SECRET="your_32_byte_random_secret_string" \
+  ghcr.io/fivemanage/lite:latest
+```
+
+## Option B: Full Stack via Docker Compose
+
+For a complete self-hosted environment including all dependencies, use the provided `docker-compose.yml`. This will spin up Postgres, ClickHouse, MinIO, and Jaeger alongside the application.
+
+1.  **Create a `docker-compose.yml` file:**
+
+```yaml
+version: '3.8'
+services:
+  lite:
+    image: ghcr.io/fivemanage/lite:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DSN=postgres://postgres:root@lite-database:5432/fivemanage-lite-dev?sslmode=disable
+      - CLICKHOUSE_HOST=lite-clickhouse:9000
+      - ADMIN_PASSWORD=password
+      - API_TOKEN_HMAC_SECRET=change_this_to_a_secure_random_string
+      - S3_PROVIDER=minio
+      - AWS_ENDPOINT=http://lite-minio:9000
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin123
+      - AWS_BUCKET=fivemanage
+      - AWS_REGION=us-east-1
+    depends_on:
+      - lite-database
+      - lite-clickhouse
+      - lite-minio
+
+  lite-database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: fivemanage-lite-dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  lite-clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_PASSWORD: password
+    ports:
+      - '18123:8123'
+      - '19000:9000'
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse/
+
+  lite-minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  clickhouse_data:
+  minio_data:
+```
+
+2.  **Start the stack:**
+    ```bash
+    docker-compose up -d
+    ```
+
+## Initial Login
+
+Once the application is running, access the dashboard at `http://localhost:8080`.
+
+*   **Username:** `admin`
+*   **Password:** The value of your `ADMIN_PASSWORD` environment variable (default is `password` in the example above).

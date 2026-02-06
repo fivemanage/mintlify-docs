@@ -1,0 +1,101 @@
+---
+title: 'MinIO Setup'
+description: 'Configure MinIO for self-hosted S3-compatible storage.'
+---
+
+# MinIO Setup
+
+Fivemanage Lite supports any S3-compatible storage provider for handling file uploads. **MinIO** is the recommended solution for a fully self-hosted environment, offering high-performance object storage that is API compatible with Amazon S3.
+
+## Running MinIO
+
+We recommend using the official Docker image `minio/minio:latest`.
+
+### Docker Command
+
+To run a basic MinIO instance:
+
+```bash
+docker run -d \
+  --name minio \
+  -p 9000:9000 \
+  -p 9001:9001 \
+  -e MINIO_ROOT_USER=minioadmin \
+  -e MINIO_ROOT_PASSWORD=minioadmin123 \
+  -v minio_data:/data \
+  minio/minio:latest server /data --console-address ":9001"
+```
+
+### Docker Compose
+
+For a production-ready setup integrated with your stack:
+
+```yaml
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: lite-minio
+    restart: always
+    ports:
+      - "9000:9000"   # API Port
+      - "9001:9001"   # Console Port
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: your_secure_password
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  minio_data:
+```
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `MINIO_ROOT_USER` | The admin username. | `minioadmin` |
+| `MINIO_ROOT_PASSWORD` | The admin password. | `minioadmin123` |
+
+### Connecting Fivemanage Lite
+
+Once MinIO is running, you need to create a bucket (e.g., `fivemanage`) and configure the application to connect to it.
+
+1.  **Access the Console**: Go to `http://localhost:9001` and login.
+2.  **Create Bucket**: Create a new bucket named `fivemanage`.
+3.  **Set Policy**: Ensure the bucket or specific paths are accessible if you want public downloads (though Fivemanage Lite handles signed URLs for private files).
+
+Configure Fivemanage Lite with these environment variables:
+
+```bash
+S3_PROVIDER=minio
+AWS_ENDPOINT=http://localhost:9000
+AWS_ACCESS_KEY_ID=minioadmin
+AWS_SECRET_ACCESS_KEY=your_secure_password
+AWS_BUCKET=fivemanage
+AWS_REGION=us-east-1
+```
+
+## Production Recommendations
+
+### 1. Volume Persistence
+Always mount a volume for `/data`. Losing this volume means losing all uploaded files.
+
+### 2. Security
+*   **Change Default Credentials**: Never use `minioadmin` / `minioadmin123` in production.
+*   **TLS/SSL**: In a production environment, you should run MinIO behind a reverse proxy (like Nginx or Traefik) that handles SSL termination, or configure MinIO with certificates directly.
+
+### 3. Public Access
+By default, MinIO buckets are private. Fivemanage Lite generates presigned URLs for secure access. If you need public hosting (e.g., for direct image linking without signatures), you will need to configure the bucket policy in MinIO to allow `readonly` access to the `*` resource.
+
+## Troubleshooting
+
+**"Connection refused"**
+*   Ensure you are connecting to the API port (`9000`), not the Console port (`9001`).
+*   If running in Docker Compose, use the service name (e.g., `http://lite-minio:9000`) as the endpoint.
+
+**"Access Denied"**
+*   Verify `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` match `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD`.
+*   Ensure the bucket specified in `AWS_BUCKET` actually exists.

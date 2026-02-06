@@ -1,0 +1,48 @@
+---
+title: 'Configuration'
+description: 'Configure Fivemanage Lite environment variables and dependencies.'
+---
+
+# Configuration
+
+Fivemanage Lite is configured entirely via environment variables. This makes it easy to deploy in containerized environments like Docker and Kubernetes.
+
+## Environment Variables
+
+| Variable | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `PORT` | Port the server listens on | No | `8080` |
+| `DSN` | PostgreSQL connection string | **Yes** | - |
+| `ADMIN_PASSWORD` | Password for the initial admin account | **Yes** | `password` |
+| `API_TOKEN_HMAC_SECRET` | 32-byte secret key for signing API tokens | **Yes** | - |
+| `CLICKHOUSE_HOST` | Address of the ClickHouse server | No | `localhost:19000` |
+| `CLICKHOUSE_USERNAME` | ClickHouse username | No | `default` |
+| `CLICKHOUSE_PASSWORD` | ClickHouse password | No | `password` |
+| `CLICKHOUSE_DATABASE` | ClickHouse database name | No | `default` |
+| `S3_PROVIDER` | Storage backend: `s3`, `r2`, or `minio` | No | `minio` |
+| `AWS_ACCESS_KEY_ID` | S3 Access Key | If using S3 | - |
+| `AWS_SECRET_ACCESS_KEY` | S3 Secret Key | If using S3 | - |
+| `AWS_BUCKET` | Target bucket name | If using S3 | - |
+| `AWS_REGION` | S3 region | If using S3 | - |
+| `AWS_ENDPOINT` | Custom endpoint (required for MinIO/R2) | No | - |
+| `ENV` | Environment mode (`production` or `dev`) | No | `dev` |
+
+## Infrastructure Dependencies
+
+To run a fully functional instance, you must provision the following dependencies:
+
+### 1. PostgreSQL (Primary Database)
+Used for storing relational data, including user accounts, organization hierarchies, file metadata, and API tokens.
+*   **Version**: 14+ recommended.
+*   **Connection**: Configured via the `DSN` environment variable.
+
+### 2. ClickHouse (Log Store)
+Used for the high-performance ingestion and querying of structured logs. This is mandatory if you intend to use the logging features.
+*   **Why ClickHouse?**: It handles millions of log rows with minimal storage footprint and instant query speeds compared to traditional SQL databases.
+
+### 3. S3-Compatible Storage
+Used for storing actual file assets (images, user uploads).
+*   **Supported Providers**: AWS S3, Cloudflare R2, or MinIO (for self-hosting).
+
+### 4. OpenTelemetry (Optional)
+The application has native tracing support. You can connect it to a collector like **Jaeger** to visualize request flows and performance bottlenecks.

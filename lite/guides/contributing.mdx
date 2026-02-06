@@ -1,0 +1,74 @@
+---
+title: 'Developing & Contributing'
+description: 'Learn how to build Fivemanage Lite from source and contribute to the project.'
+---
+
+# Developing & Contributing
+
+Follow these instructions if you want to contribute to the project or build from source.
+
+## Prerequisites
+
+*   **Go**: 1.24 or later
+*   **Node.js**: 22.x or later
+*   **pnpm**: 9.x or later
+*   **Air**: For backend hot-reloading
+*   **Docker**: For running local infrastructure
+
+## Initial Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/fivemanage/fivemanage-lite.git
+    cd fivemanage-lite
+    ```
+
+2.  **Install Frontend Dependencies:**
+    ```bash
+    cd web
+    pnpm install
+    cd ..
+    ```
+
+3.  **Download Backend Dependencies:**
+    ```bash
+    go mod download
+    ```
+
+4.  **Start Development Infrastructure:**
+    This will spin up the required databases (Postgres, ClickHouse, MinIO) in the background.
+    ```bash
+    docker compose -f deployments/docker-compose.yml up -d
+    ```
+
+## Running for Development
+
+Run the backend and frontend in separate terminals.
+
+1.  **Backend:**
+    ```bash
+    air
+    ```
+
+2.  **Frontend:**
+    ```bash
+    cd web
+    pnpm dev
+    ```
+
+## Project Structure
+
+*   `cmd/lite`: Main entry point and CLI configuration.
+*   `internal/`: Application logic, API handlers, and services.
+*   `pkg/`: Reusable packages for storage, logging, and caching.
+*   `web/`: Frontend React application.
+*   `deployments/`: Docker Compose and deployment configurations.
+*   `migrate/`: PostgreSQL schema migrations.
+*   `build/`: Dockerfile and build scripts.
+
+## Contributing Guidelines
+
+1.  **Branching:** Use descriptive branch names (`feature/*`, `fix/*`).
+2.  **Formatting:** Use `go fmt` and `pnpm lint`.
+3.  **Commits:** Provide clear, professional messages.
+4.  **Pull Requests:** Provide a detailed description of changes.

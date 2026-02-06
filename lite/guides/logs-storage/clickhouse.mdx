@@ -1,0 +1,106 @@
+---
+title: 'ClickHouse Setup'
+description: 'Configure ClickHouse for high-performance log ingestion.'
+---
+
+# ClickHouse Setup
+
+Fivemanage Lite uses **ClickHouse** as its primary storage engine for structured logs. ClickHouse is an open-source column-oriented database management system that allows generating analytical data reports in real-time.
+
+It is chosen for its exceptional performance with high-volume write operations (log ingestion) and fast analytical queries (filtering and searching logs).
+
+## Running ClickHouse
+
+We recommend using the official Docker image `clickhouse/clickhouse-server`.
+
+### Docker Command
+
+To run a basic ClickHouse instance:
+
+```bash
+docker run -d \
+  --name clickhouse-server \
+  --ulimit nofile=262144:262144 \
+  -p 8123:8123 \
+  -p 9000:9000 \
+  -e CLICKHOUSE_PASSWORD=password \
+  -v clickhouse_data:/var/lib/clickhouse \
+  clickhouse/clickhouse-server:latest
+```
+
+### Docker Compose
+
+For a production-ready setup integrated with your stack:
+
+```yaml
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: lite-clickhouse
+    restart: always
+    ports:
+      - '8123:8123'   # HTTP Interface
+      - '9000:9000'   # Native Interface (Used by Fivemanage Lite)
+    environment:
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=your_secure_password
+      - CLICKHOUSE_DB=default
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse/
+      - ./clickhouse-config.xml:/etc/clickhouse-server/config.d/custom_config.xml
+
+volumes:
+  clickhouse_data:
+```
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `CLICKHOUSE_USER` | The username for authentication. | `default` |
+| `CLICKHOUSE_PASSWORD` | The password for the user. | `password` |
+| `CLICKHOUSE_DB` | The default database to create on startup. | `default` |
+
+### Connecting Fivemanage Lite
+
+Once ClickHouse is running, configure Fivemanage Lite to connect to it using the following environment variables:
+
+```bash
+CLICKHOUSE_HOST=localhost:9000
+CLICKHOUSE_USERNAME=default
+CLICKHOUSE_PASSWORD=your_secure_password
+CLICKHOUSE_DATABASE=default
+```
+
+## Production Recommendations
+
+### 1. Volume Persistence
+Always mount a volume for `/var/lib/clickhouse`. If you don't, you will lose all log data when the container restarts.
+
+### 2. File Limits (ulimits)
+ClickHouse requires a high number of open file descriptors.
+*   **Docker**: Use `--ulimit nofile=262144:262144`.
+*   **Systemd/Linux**: Ensure `/etc/security/limits.conf` allows high open files for the user running Docker or ClickHouse.
+
+### 3. Resource Allocation
+ClickHouse loves RAM. For a small to medium community, **4GB - 8GB RAM** is a good starting point. It is highly efficient, but complex queries over millions of logs will benefit from more memory.
+
+### 4. Security
+*   **Change the default password**: Never use `password` in production.
+*   **Network Isolation**: Do not expose port `9000` (Native) or `8123` (HTTP) to the public internet. Only Fivemanage Lite needs access to port `9000`.
+
+## Troubleshooting
+
+**"Connection refused"**
+*   Ensure the container is running: `docker ps`
+*   Check logs: `docker logs lite-clickhouse`
+*   Verify you are using the correct port (`9000` for the Go application, not `8123`).
+
+**"Too many open files"**
+*   Check your ulimits configuration as described in the Production Recommendations section.

@@ -167,6 +167,12 @@
         "description": "Lightweight version of Fivemanage.",
         "tabs": [
           {
+            "tab": "Guides",
+            "pages": [
+              "introduction-to-lite"
+            ]
+          },
+          {
             "tab": "Overview"
           }
         ]

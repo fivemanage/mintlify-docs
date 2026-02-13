@@ -11,570 +11,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/audio": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Upload an audio file with optional metadata",
-                "tags": [
-                    "audio"
-                ],
-                "summary": "Upload an audio file",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Audio file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Audio metadata (JSON string)",
-                                        "type": "string"
-                                    },
-                                    "filename": {
-                                        "description": "Custom filename",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/audio/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Delete a specific audio file by ID",
-                "tags": [
-                    "audio"
-                ],
-                "summary": "Delete an audio file",
-                "parameters": [
-                    {
-                        "description": "Audio ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/audio/list": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "List audio files with pagination",
-                "tags": [
-                    "audio"
-                ],
-                "summary": "List audio files",
-                "parameters": [
-                    {
-                        "description": "Page number (default: 1)",
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "Items per page (default: 10, max: 100)",
-                        "name": "limit",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaListResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/audio/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get details of a specific audio file by ID",
-                "tags": [
-                    "audio"
-                ],
-                "summary": "Get audio details",
-                "parameters": [
-                    {
-                        "description": "Audio ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaDetailsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/image": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Upload an image file with optional metadata",
-                "tags": [
-                    "image"
-                ],
-                "summary": "Upload an image",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Image file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Image metadata (JSON string)",
-                                        "type": "string"
-                                    },
-                                    "filename": {
-                                        "description": "Custom filename",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/image/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Delete a specific image by ID",
-                "tags": [
-                    "image"
-                ],
-                "summary": "Delete an image",
-                "parameters": [
-                    {
-                        "description": "Image ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/image/list": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "List images with pagination",
-                "tags": [
-                    "image"
-                ],
-                "summary": "List images",
-                "parameters": [
-                    {
-                        "description": "Page number (default: 1)",
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "Items per page (default: 10, max: 100)",
-                        "name": "limit",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaListResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/image/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get details of a specific image by ID",
-                "tags": [
-                    "image"
-                ],
-                "summary": "Get image details",
-                "parameters": [
-                    {
-                        "description": "Image ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaDetailsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/logs": {
             "post": {
                 "security": [
@@ -582,11 +18,11 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Submit one or more log entries",
+                "description": "Submit one or more log entries to the logging system. Supports both single objects and arrays.",
                 "tags": [
-                    "logs"
+                    "Logging"
                 ],
-                "summary": "Submit logs",
+                "summary": "Ingest Logs",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/api.LogRequestArray"
                 },
@@ -641,11 +77,11 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Submit one or more log entries",
+                "description": "Submit one or more log entries to the logging system. Supports both single objects and arrays.",
                 "tags": [
-                    "logs"
+                    "Logging"
                 ],
-                "summary": "Submit logs",
+                "summary": "Ingest Logs",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/api.LogRequestArray"
                 },
@@ -693,168 +129,13 @@
                 }
             }
         },
-        "/presigned-url": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Generate a presigned URL for file upload",
-                "tags": [
-                    "presigned"
-                ],
-                "summary": "Generate a presigned URL",
-                "parameters": [
-                    {
-                        "description": "File type (image, audio, or video)",
-                        "name": "fileType",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "image",
-                                "audio",
-                                "video"
-                            ]
-                        }
-                    },
-                    {
-                        "description": "Expiration time in Unix timestamp",
-                        "name": "expiresAt",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.PresignedUrlResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/presigned-url/{token}": {
-            "post": {
-                "description": "Upload a file using a presigned URL token",
-                "tags": [
-                    "presigned"
-                ],
-                "summary": "Upload file using presigned URL",
-                "parameters": [
-                    {
-                        "description": "Presigned URL token",
-                        "name": "token",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/postPresignedUrl_token_"
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/sdk/heartbeat": {
             "post": {
-                "description": "Send a heartbeat to keep the SDK token alive",
+                "description": "Send a heartbeat to maintain an active SDK reporting session and extend token validity.",
                 "tags": [
-                    "sdk"
+                    "SDK Integration"
                 ],
-                "summary": "SDK heartbeat",
+                "summary": "Refresh SDK Session",
                 "parameters": [
                     {
                         "description": "SDK token",
@@ -912,11 +193,11 @@
         },
         "/sdk/invalidate": {
             "post": {
-                "description": "Invalidate an SDK token",
+                "description": "Manually invalidate an SDK session and its associated token.",
                 "tags": [
-                    "sdk"
+                    "SDK Integration"
                 ],
-                "summary": "Invalidate SDK token",
+                "summary": "Terminate SDK Session",
                 "parameters": [
                     {
                         "description": "SDK token",
@@ -997,11 +278,11 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Generate an SDK token for reporting",
+                "description": "Generate an SDK token to establish a reporting session. Required for game server integrations.",
                 "tags": [
-                    "sdk"
+                    "SDK Integration"
                 ],
-                "summary": "Generate SDK token",
+                "summary": "Authorize SDK Session",
                 "parameters": [
                     {
                         "description": "SDK type (fivem or roblox)",
@@ -1093,193 +374,286 @@
                 }
             }
         },
-        "/v2/audio": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Upload an audio file with optional metadata",
-                "tags": [
-                    "audio"
-                ],
-                "summary": "Upload an audio file (v2)",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Audio file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Audio metadata (JSON string)",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponseV2"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v2/image": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Upload an image file with optional metadata",
-                "tags": [
-                    "image"
-                ],
-                "summary": "Upload an image (v2)",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Image file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Image metadata (JSON string)",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponseV2"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v2/presigned-url": {
+        "/v3/file": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Generate a presigned URL for file upload",
+                "description": "List files with pagination and filtering by type or path.",
                 "tags": [
-                    "presigned"
+                    "Files"
                 ],
-                "summary": "Generate a presigned URL",
+                "summary": "List All Files",
                 "parameters": [
                     {
-                        "description": "File type (image, audio, or video)",
-                        "name": "fileType",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
                         "in": "query",
-                        "required": true,
                         "schema": {
-                            "type": "string",
-                            "enum": [
-                                "image",
-                                "audio",
-                                "video"
-                            ]
+                            "type": "integer"
                         }
                     },
+                    {
+                        "description": "Items per page (default: 50, max: 100)",
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "Filter by file type (image, video, audio)",
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Filter by folder path",
+                        "name": "path",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.FileListResponseV3"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Upload a file using multipart/form-data with optional metadata and path. Supports images, videos, and audio.",
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Upload File (Multipart)",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "description": "File to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "filename": {
+                                        "description": "Custom filename",
+                                        "type": "string"
+                                    },
+                                    "path": {
+                                        "description": "Storage path (folder)",
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "description": "JSON metadata",
+                                        "type": "string"
+                                    },
+                                    "retentionExempt": {
+                                        "description": "Exempt from retention policy",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.FileUploadResponseV3"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "Request Entity Too Large",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v3/file/base64": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Upload a base64 encoded file with optional metadata and path. Supports images, videos, and audio.",
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Upload File (Base64)",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/http_route_v3_handler_file.Base64UploadRequest"
+                            }
+                        }
+                    },
+                    "description": "Base64 upload request",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.FileUploadResponseV3"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "Request Entity Too Large",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v3/file/presigned-url": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Generate a presigned URL for file upload in V3. This URL allows uploading a file directly without using an API token in the final POST.",
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Create Presigned Upload URL",
+                "parameters": [
                     {
                         "description": "Expiration time in Unix timestamp",
                         "name": "expiresAt",
@@ -1295,7 +669,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/api.PresignedUrlResponseV2"
+                                    "$ref": "#/components/schemas/api.PresignedUrlResponseV3"
                                 }
                             }
                         }
@@ -1333,13 +707,13 @@
                 }
             }
         },
-        "/v2/presigned-url/{token}": {
+        "/v3/file/presigned-url/{token}": {
             "post": {
-                "description": "Upload a file using a presigned URL token",
+                "description": "Upload a file using a V3 presigned URL token. Supports all standard V3 upload fields in form-data.",
                 "tags": [
-                    "presigned"
+                    "Files"
                 ],
-                "summary": "Upload file using presigned URL",
+                "summary": "Upload File via Presigned URL",
                 "parameters": [
                     {
                         "description": "Presigned URL token",
@@ -1352,7 +726,40 @@
                     }
                 ],
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/postPresignedUrl_token_"
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "description": "File to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "filename": {
+                                        "description": "Custom filename",
+                                        "type": "string"
+                                    },
+                                    "path": {
+                                        "description": "Folder path",
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "description": "File metadata (JSON string)",
+                                        "type": "string"
+                                    },
+                                    "retention_exempt": {
+                                        "description": "Exclude from retention policy",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "200": {
@@ -1360,7 +767,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponseV2"
+                                    "$ref": "#/components/schemas/api.FileUploadResponseV3"
                                 }
                             }
                         }
@@ -1408,186 +815,22 @@
                 }
             }
         },
-        "/v2/video": {
-            "post": {
+        "/v3/file/{path}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Upload a video file with optional metadata",
+                "description": "Get detailed information about a specific file by ID or storage key.",
                 "tags": [
-                    "video"
+                    "Files"
                 ],
-                "summary": "Upload a video (v2)",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Video file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Video metadata (JSON string)",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponseV2"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/video": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Upload a video file with optional metadata",
-                "tags": [
-                    "video"
-                ],
-                "summary": "Upload a video",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "description": "Video file",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "metadata": {
-                                        "description": "Video metadata (JSON string)",
-                                        "type": "string"
-                                    },
-                                    "filename": {
-                                        "description": "Custom filename",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "file"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaUploadResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/video/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Delete a specific video by ID",
-                "tags": [
-                    "video"
-                ],
-                "summary": "Delete a video",
+                "summary": "Retrieve File Metadata",
                 "parameters": [
                     {
-                        "description": "Video ID",
-                        "name": "id",
+                        "description": "File ID or storage key",
+                        "name": "*",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1601,7 +844,17 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
+                                    "$ref": "#/components/schemas/api.FileDetailResponseV3"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
                                 }
                             }
                         }
@@ -1637,88 +890,22 @@
                         }
                     }
                 }
-            }
-        },
-        "/video/list": {
-            "get": {
+            },
+            "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "List videos with pagination",
+                "description": "Delete a specific file by ID or storage key.",
                 "tags": [
-                    "video"
+                    "Files"
                 ],
-                "summary": "List videos",
+                "summary": "Delete File",
                 "parameters": [
                     {
-                        "description": "Page number (default: 1)",
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "Items per page (default: 10, max: 100)",
-                        "name": "limit",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.MediaListResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/video/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get details of a specific video by ID",
-                "tags": [
-                    "video"
-                ],
-                "summary": "Get video details",
-                "parameters": [
-                    {
-                        "description": "Video ID",
-                        "name": "id",
+                        "description": "File ID or storage key",
+                        "name": "*",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1732,7 +919,17 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/api.MediaDetailsResponse"
+                                    "$ref": "#/components/schemas/api.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
                                 }
                             }
                         }
@@ -1791,30 +988,6 @@
                 },
                 "description": "Log entries (single object or array)",
                 "required": true
-            },
-            "postPresignedUrl_token_": {
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "file": {
-                                    "description": "File to upload",
-                                    "type": "string",
-                                    "format": "binary"
-                                },
-                                "metadata": {
-                                    "description": "File metadata (JSON string)",
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "file"
-                            ]
-                        }
-                    }
-                },
-                "required": true
             }
         },
         "securitySchemes": {
@@ -1831,6 +1004,83 @@
                     "error": {
                         "type": "string",
                         "example": "Error message"
+                    }
+                }
+            },
+            "api.FileDetailResponseV3": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/api.FileItemV3"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.FileItemV3": {
+                "type": "object",
+                "properties": {
+                    "filename": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.FileListResponseV3": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/api.FileItemV3"
+                        }
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/api.PaginationV3"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.FileUploadResponseDataV3": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "7F9pGhN8qwErT1vx5aZk"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://r2.fivemanage.com/23492kdx23121/7F9pGhN8qwErT1vx5aZk.jpg"
+                    }
+                }
+            },
+            "api.FileUploadResponseV3": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/api.FileUploadResponseDataV3"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "ok"
                     }
                 }
             },
@@ -1852,116 +1102,34 @@
                     }
                 }
             },
-            "api.MediaDetailsResponse": {
+            "api.PaginationV3": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "string",
-                        "example": "7F9pGhN8qwErT1vx5aZk"
+                    "limit": {
+                        "type": "integer"
                     },
-                    "metadata": {
-                        "type": "object",
-                        "additionalProperties": true
+                    "page": {
+                        "type": "integer"
                     },
-                    "url": {
-                        "type": "string",
-                        "example": "https://r2.fivemanage.com/7F9pGhN8qwErT1vx5aZk.jpg"
+                    "total": {
+                        "type": "integer"
                     }
                 }
             },
-            "api.MediaItem": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "example": "7F9pGhN8qwErT1vx5aZk"
-                    },
-                    "metadata": {
-                        "type": "object",
-                        "additionalProperties": true
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "https://r2.fivemanage.com/7F9pGhN8qwErT1vx5aZk.jpg"
-                    }
-                }
-            },
-            "api.MediaListResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/api.MediaItem"
-                        }
-                    },
-                    "status": {
-                        "type": "string",
-                        "example": "ok"
-                    }
-                }
-            },
-            "api.MediaUploadResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "example": "7F9pGhN8qwErT1vx5aZk"
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "https://r2.fivemanage.com/7F9pGhN8qwErT1vx5aZk.jpg"
-                    }
-                }
-            },
-            "api.MediaUploadResponseDataV2": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "example": "7F9pGhN8qwErT1vx5aZk"
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "https://i.fmfile.com/7F9pGhN8qwErT1vx5aZk.jpg"
-                    }
-                }
-            },
-            "api.MediaUploadResponseV2": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/api.MediaUploadResponseDataV2"
-                    },
-                    "status": {
-                        "type": "string",
-                        "example": "ok"
-                    }
-                }
-            },
-            "api.PresignedUrlResponse": {
+            "api.PresignedUrlResponseDataV3": {
                 "type": "object",
                 "properties": {
                     "presignedUrl": {
                         "type": "string",
-                        "example": "https://api.fivemanage.com/api/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        "example": "https://fmapi.net/api/v3/file/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                     }
                 }
             },
-            "api.PresignedUrlResponseDataV2": {
-                "type": "object",
-                "properties": {
-                    "presignedUrl": {
-                        "type": "string",
-                        "example": "https://fmapi.net/api/v2/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                    }
-                }
-            },
-            "api.PresignedUrlResponseV2": {
+            "api.PresignedUrlResponseV3": {
                 "type": "object",
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/api.PresignedUrlResponseDataV2"
+                        "$ref": "#/components/schemas/api.PresignedUrlResponseDataV3"
                     },
                     "status": {
                         "type": "string",
@@ -2050,6 +1218,26 @@
                     "status": {
                         "type": "string",
                         "example": "ok"
+                    }
+                }
+            },
+            "http_route_v3_handler_file.Base64UploadRequest": {
+                "type": "object",
+                "properties": {
+                    "base64": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "metadata": {
+                        "type": "string"
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "retentionExempt": {
+                        "type": "boolean"
                     }
                 }
             }

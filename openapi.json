@@ -11,124 +11,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/logs": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Submit one or more log entries to the logging system. Supports both single objects and arrays.",
-                "tags": [
-                    "Logging"
-                ],
-                "summary": "Ingest Logs",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/api.LogRequestArray"
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/logs/batch": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Submit one or more log entries to the logging system. Supports both single objects and arrays.",
-                "tags": [
-                    "Logging"
-                ],
-                "summary": "Ingest Logs",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/api.LogRequestArray"
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/sdk/heartbeat": {
             "post": {
                 "description": "Send a heartbeat to maintain an active SDK reporting session and extend token validity.",
@@ -966,6 +848,76 @@
                     }
                 }
             }
+        },
+        "/v3/logs": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Submit one or more log entries to the logging system.",
+                "tags": [
+                    "Logging"
+                ],
+                "summary": "Ingest Logs",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/api.LogRequest"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Log entries (array of objects)",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "servers": [
@@ -974,22 +926,6 @@
         }
     ],
     "components": {
-        "requestBodies": {
-            "api.LogRequestArray": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/api.LogRequest"
-                            }
-                        }
-                    }
-                },
-                "description": "Log entries (single object or array)",
-                "required": true
-            }
-        },
         "securitySchemes": {
             "ApiKeyAuth": {
                 "type": "apiKey",

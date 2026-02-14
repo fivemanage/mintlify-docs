@@ -1,4 +1,167 @@
 ---
 title: 'Migrate from V2'
+description: 'Learn how to migrate from API V2 to V3'
 ---
 
+This guide outlines the changes and steps required to migrate your application from the V2 API to the V3 API. The V3 API introduces a more unified file handling system and improved logging capabilities.
+
+## File API
+
+The file upload API has been consolidated into a single endpoint, replacing the media-specific endpoints in V2.
+
+### Endpoint Changes
+
+| Feature | V2 Endpoint | V3 Endpoint |
+| :--- | :--- | :--- |
+| Image Upload | `POST /api/v2/image` | `POST /api/v3/file` |
+| Video Upload | `POST /api/v2/video` | `POST /api/v3/file` |
+| Audio Upload | `POST /api/v2/audio` | `POST /api/v3/file` |
+| Base64 Upload | N/A | `POST /api/v3/file/base64` |
+| Presigned URL (Generate) | `GET /api/v2/presigned-url` | `GET /api/v3/file/presigned-url` |
+| Presigned URL (Upload) | `POST /api/v2/presigned-url/:token` | `POST /api/v3/file/presigned-url/:token` |
+
+### Request Changes
+
+In V3, the form field for the file content is always `file`, regardless of the media type.
+
+#### Multipart Upload
+
+**V2 Request:**
+```bash
+curl -X POST https://api.fivemanage.com/api/v2/image \
+  -H "Authorization: YOUR_API_TOKEN" \
+  -F "image=@/path/to/image.png"
+```
+
+**V3 Request:**
+```bash
+curl -X POST https://api.fivemanage.com/api/v3/file \
+  -H "Authorization: YOUR_API_TOKEN" \
+  -F "file=@/path/to/image.png"
+```
+
+**New Optional Fields in V3:**
+- `filename`: Custom filename for the uploaded file.
+- `path`: Directory path to store the file (e.g., `users/avatars`).
+- `metadata`: JSON string containing metadata.
+- `retentionExempt`: Boolean to exempt the file from retention policies.
+
+#### Base64 Upload
+
+V3 introduces a dedicated endpoint for Base64 encoded files.
+
+**Request Body:**
+```json
+{
+  "base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "filename": "image.png",
+  "path": "uploads",
+  "metadata": "{\"userId\": \"123\"}",
+  "retentionExempt": false
+}
+```
+
+### Response Format
+
+The response structure remains consistent, returning the file ID and URL.
+
+```json
+{
+  "data": {
+    "id": "file_123456789",
+    "url": "https://r2.fivemanage.com/..."
+  }
+}
+```
+
+## Presigned URL
+
+Presigned URLs allow you to generate a temporary upload URL that can be used without exposing your API token. This is useful for client-side uploads.
+
+### Generating a Presigned URL
+
+**V2 Request:**
+```bash
+curl -X GET "https://api.fivemanage.com/api/v2/presigned-url?fileType=image&expiresAt=1700000000" \
+  -H "Authorization: YOUR_API_TOKEN"
+```
+
+**V3 Request:**
+```bash
+curl -X GET "https://api.fivemanage.com/api/v3/file/presigned-url?expiresAt=1700000000" \
+  -H "Authorization: YOUR_API_TOKEN"
+```
+
+**Key Differences:**
+- V2 **requires** the `fileType` query parameter (`image`, `video`, or `audio`).
+- V3 **does not require** `fileType` since the unified `/file` endpoint handles all media types.
+- Default expiration: V2 defaults to 5 minutes, V3 defaults to 15 minutes.
+
+### Uploading via Presigned URL
+
+**V2 Request:**
+```bash
+curl -X POST "https://api.fivemanage.com/api/v2/presigned-url/YOUR_TOKEN" \
+  -F "image=@/path/to/image.png"
+```
+
+**V3 Request:**
+```bash
+curl -X POST "https://api.fivemanage.com/api/v3/file/presigned-url/YOUR_TOKEN" \
+  -F "file=@/path/to/image.png"
+```
+
+**Key Differences:**
+- V2 requires the form field to match the `fileType` specified when generating the URL (`image`, `video`, or `audio`).
+- V3 always uses `file` as the form field name.
+- V3 supports additional optional fields: `filename`, `path`, `metadata`, and `retentionExempt`.
+
+## Logs API
+
+The logs API has been moved to the V3 namespace and now enforces batch processing.
+
+### Endpoint Changes
+
+| Feature | V2 Endpoint | V3 Endpoint |
+| :--- | :--- | :--- |
+| Ingest Logs | `POST /api/logs` | `POST /api/v3/logs` |
+
+### Request Changes
+
+The V3 Logs API **requires** an array of log objects. Single log objects are no longer supported as the root element.
+
+**V2 Request (Deprecated):**
+```bash
+curl -X POST https://api.fivemanage.com/api/logs \
+  -H "Authorization: YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "level": "info",
+    "message": "User logged in",
+    "resource": "auth-service"
+  }'
+```
+
+**V3 Request (Required):**
+```bash
+curl -X POST https://api.fivemanage.com/api/v3/logs \
+  -H "Authorization: YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "level": "info",
+      "message": "User logged in",
+      "resource": "auth-service"
+    }
+  ]'
+```
+
+### Response Format
+
+The response format remains the same:
+
+```json
+{
+  "status": "ok"
+}
+```

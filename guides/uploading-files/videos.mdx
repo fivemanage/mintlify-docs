@@ -79,3 +79,43 @@ axios.request(options).then(function (response) {
   console.error(error);
 })
 ```
+
+### Listing videos
+
+You can list your uploaded videos using a GET request. You can filter by type to only see videos.
+
+```js
+const axios = require('axios');
+
+const apiKey = 'YOUR_API_TOKEN';
+// Filter by type=video
+const url = 'https://api.fivemanage.com/api/v3/file?type=video';
+
+axios.get(url, {
+    headers: { Authorization: apiKey }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});
+```
+
+### Getting video details
+
+To get details about a specific video, including its metadata, use the GET request with the file ID.
+
+```js
+const axios = require('axios');
+
+const apiKey = 'YOUR_API_TOKEN';
+const fileId = '7F9pGhN8qwErT1vx5aZk';
+const url = `https://api.fivemanage.com/api/v3/file/${fileId}`;
+
+axios.get(url, {
+    headers: { Authorization: apiKey }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});
+```

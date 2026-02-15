@@ -10,16 +10,11 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
   <Step title="Request the presigned URL">
     Start by performing a `GET` request on the server. This needs to contain the endpoint and your API token.
 
-    The `?fileType` param can be `image`, `audio` or `video`.
-
-    <Info>
-      We plan to remove this `?fileType` param in our next version of the API.
-    </Info>
     <Tabs>
       <Tab title="cURL">
         ```bash
         curl --request GET \
-        	--url 'https://fmapi.net/api/v2/presigned-url?fileType=image' \
+        	--url 'https://api.fivemanage.com/api/v3/file/presigned-url' \
         	--header 'Authorization: YOUR_API_TOKEN' \
         ```
 
@@ -28,7 +23,7 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         ```json
         {
         	"data": {
-            	"presignedUrl": "https://fmapi.net/api/v2/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            	"presignedUrl": "https://api.fivemanage.com/api/v3/file/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
           	},
         	"status": "ok"
         }
@@ -46,7 +41,7 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         	}
         };
         
-        fetch('https://fmapi.net/api/v2/presigned-url?fileType=image', options)
+        fetch('https://api.fivemanage.com/api/v3/file/presigned-url', options)
         	.then(response => response.json())
             .then(response => console.log(response))
         	.catch(err => console.error(err));
@@ -59,7 +54,7 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
       <Tab title="cURL">
         ```http
         curl --request POST \
-        	--url https://fmapi.net/api/v2/presigned-url/iCyMnIkzF423RQr88Hppo \
+        	--url https://api.fivemanage.com/api/v3/file/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... \
         	--header 'Content-Type: multipart/form-data' \
         	--form file=path/to/your/file.png
         ```
@@ -72,19 +67,19 @@ To get a presigned URL, you first need to request for it. Here we'll go through 
         {
           "data": {
             "id": "7F9pGhN8qwErT1vx5aZk",
-            "url": "https://i.fmfile.com/7F9pGhN8qwErT1vx5aZk.jpg"
+            "url": "https://r2.fivemanage.com/6E9pGhN8qwErT1vx5aZk/7F9pGhN8qwErT1vx5aZk.jpg"
           },
           "status": "ok"
         }
         ```
       </Tab>
       <Tab title="Node">
-        ```
+        ```javascript
         const axios = require('axios');
         const fs = require('fs');
         
         // this is the URL you got from the server-side.
-        const url = 'https://fmapi.net/api/v2/presigned-url/iCyMnIkzF423RQr88Hppo';
+        const url = 'https://api.fivemanage.com/api/v3/file/presigned-url/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
              
         const formData = new FormData();
              

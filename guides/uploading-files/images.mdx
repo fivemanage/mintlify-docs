@@ -56,6 +56,38 @@ axios.post(url, formData, {
 });
 ```
 
+### Uploading a base64 image
+
+If you have a base64 encoded image, you can upload it using the `/v3/file/base64` endpoint. This is particularly useful for environments where `FormData` is not available or difficult to use, such as some game engines or server-side scripts.
+
+```js
+const axios = require('axios');
+
+const apiKey = 'YOUR_API_TOKEN';
+const url = 'https://api.fivemanage.com/api/v3/file/base64';
+
+const data = {
+    base64: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    filename: "pixel.png",
+    // Optional metadata field (JSON string)
+    metadata: JSON.stringify({
+        name: 'My image',
+        description: 'This is my image',
+    })
+};
+
+axios.post(url, data, {
+    headers: {
+        Authorization: apiKey,
+        'Content-Type': 'application/json'
+    }
+}).then(res => {
+    console.log(res.data.url);
+}).catch(err => {
+    console.error(err);
+});
+```
+
 #### Response
 
 ##### Success
@@ -95,13 +127,76 @@ axios.request(options).then(function (response) {
 });
 ```
 
+### Listing images
+
+You can list your uploaded images using a GET request. You can filter by type to only see images.
+
+```js
+const axios = require('axios');
+
+const apiKey = 'YOUR_API_TOKEN';
+// Filter by type=image
+const url = 'https://api.fivemanage.com/api/v3/file?type=image';
+
+axios.get(url, {
+    headers: { Authorization: apiKey }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});
+```
+
+### Getting image details
+
+To get details about a specific image, including its metadata, use the GET request with the file ID.
+
+```js
+const axios = require('axios');
+
+const apiKey = 'YOUR_API_TOKEN';
+const fileId = '7F9pGhN8qwErT1vx5aZk';
+const url = `https://api.fivemanage.com/api/v3/file/${fileId}`;
+
+axios.get(url, {
+    headers: { Authorization: apiKey }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});
+```
+
 ### Games & Mods
 
 #### FiveM
 
 <Info>
-  There is no way to upload files from Lua yet, but we are adding support for base64 uploads.
+  You can upload files from Lua using the base64 endpoint.
 </Info>
+
+You can upload an image using the base64 endpoint directly from Lua.
+
+```lua
+local apiKey = "YOUR_API_TOKEN"
+local url = "https://api.fivemanage.com/api/v3/file/base64"
+local base64Image = "data:image/png;base64,..." -- Your base64 string
+
+PerformHttpRequest(url, function(statusCode, text, headers)
+    local data = json.decode(text)
+    if data then
+        print("Uploaded: " .. data.data.url)
+    else
+        print("Error: " .. text)
+    end
+end, 'POST', json.encode({
+    base64 = base64Image,
+    filename = "image.png"
+}), {
+    ["Content-Type"] = "application/json",
+    ["Authorization"] = apiKey
+})
+```
 
 There are a few ways to upload an image to the Image API. The easiest way is to use [Screenshot Basic](https://github.com/citizenfx/screenshot-basic).
 

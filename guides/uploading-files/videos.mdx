@@ -8,7 +8,7 @@ title: "Videos"
 
 ### Getting started
 
-In order to send vidoes to the Upload API, you can do so by sending a POST request to the https://api.fivemanage.com/api/v2/video endpoint.
+In order to send vidoes to the Upload API, you can do so by sending a POST request to the https://api.fivemanage.com/api/v3/file endpoint.
 
 To upload video, simply submit a form with a form field called `file` with your video as value. As well as metadata.
 
@@ -19,7 +19,7 @@ const axios = require('axios');
 const fs = require('fs');
 
 const apiKey = 'YOUR_API_TOKEN';
-const url = 'https://api.fivemanage.com/api/v2/video';
+const url = 'https://api.fivemanage.com/api/v3/file';
 
 const formData = new FormData();
 
@@ -58,7 +58,7 @@ axios.post(url, formData, {
 
 ### Deleting a video
 
-When we want to delete a video, we can do so by sending a DELETE request to the https://api.fivemanage.com/api/video/:id endpoint.
+When we want to delete a video, we can do so by sending a DELETE request to the [https://api.fivemanage.com/api/v3/file/:path ](https://api.fivemanage.com/api/v3/file/:path)endpoint.
 
 The `:id` parameter should be the ID of the video you want to delete. You can get the ID from the response when you upload a video (see above).
 
@@ -67,7 +67,7 @@ import axios from "axios";
 
 const options = {
   method: 'DELETE',
-  url: 'http://api.fivemanage.com/api/video/delete/0987654321',
+  url: 'http://api.fivemanage.com/api/v3/file/0987654321',
   headers: {
     Authorization: 'YOUR_API_TOKEN'
   }

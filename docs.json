@@ -48,6 +48,7 @@
                 "group": "Logs",
                 "pages": [
                   "fivemanage/guides/logs/getting-started",
+                  "fivemanage/guides/logs/best-practices",
                   "fivemanage/guides/logs/game-integrations"
                 ]
               },

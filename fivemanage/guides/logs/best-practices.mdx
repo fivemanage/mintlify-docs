@@ -1,5 +1,199 @@
 ---
 title: "Best practices"
+description: "Learn how to effectively use Fivemanage logging with the REST API and SDKs."
 ---
 
-e
+Effective logging is crucial for monitoring your game server's health, debugging issues, and understanding player behavior. Fivemanage provides a robust logging system accessible via a REST API and various SDKs. This guide covers best practices for logging, including code examples for the FiveM SDK, the REST API, and the Hytale SDK.
+
+## General Best Practices
+
+Regardless of the platform or SDK you use, following these best practices ensures your logs are useful and performant.
+
+### 1. Use Structured Logging
+
+Avoid simple string concatenation for log messages. Instead, use structured logging (JSON) to include key-value pairs. This allows for powerful filtering and querying later.
+
+**Bad:**
+```text
+Player 123 joined the server.
+```
+
+**Good:**
+```json
+{
+  "level": "info",
+  "message": "Player joined the server",
+  "metadata": {
+    "playerId": "123",
+    "playerName": "JohnDoe",
+    "ip": "192.168.1.1"
+  }
+}
+```
+
+### 2. Include Contextual Metadata
+
+Always include relevant metadata in your logs. This context is invaluable when troubleshooting. Common metadata fields include:
+- **User ID / Player ID**: Who triggered the event?
+- **Resource Name**: Which script or module generated the log?
+- **Request ID / Trace ID**: For tracing requests across services.
+- **Environment**: e.g., `production`, `development`.
+
+### 3. Use Appropriate Log Levels
+
+Use standard log levels to categorize the severity of events:
+- **Debug**: Detailed information for debugging purposes.
+- **Info**: General operational events (e.g., startup, shutdown, player join).
+- **Warn**: Potential issues that don't stop the application (e.g., deprecated API usage).
+- **Error**: Errors that affect functionality but don't crash the server.
+- **Fatal**: Critical errors that cause the server to crash.
+
+### 4. Batch Logs
+
+Sending logs one by one can impact performance. Batch logs together and send them in intervals (e.g., every 5 seconds or when 50 logs are accumulated). The Fivemanage API supports batch ingestion.
+
+### 5. Use Datasets
+
+Organize your logs into datasets using the `X-Fivemanage-Dataset` header. This helps separate logs from different environments (e.g., `production`, `staging`) or different game servers.
+
+---
+
+## REST API
+
+The Fivemanage REST API is the most flexible way to send logs. It can be used from any language or platform that supports HTTP requests.
+
+### Endpoint
+
+`POST https://api.fivemanage.com/api/v3/logs`
+
+### Authentication
+
+Include your API token in the `Authorization` header.
+
+### Request Body
+
+The body should be a JSON array of log objects.
+
+### Example (cURL)
+
+```bash
+curl -X POST https://api.fivemanage.com/api/v3/logs \
+  -H "Authorization: YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "X-Fivemanage-Dataset: production" \
+  -d '[
+    {
+      "level": "info",
+      "message": "Server started successfully",
+      "resource": "core",
+      "metadata": {
+        "version": "1.0.0",
+        "port": 30120
+      }
+    },
+    {
+      "level": "error",
+      "message": "Database connection failed",
+      "resource": "database",
+      "metadata": {
+        "error": "Connection timeout",
+        "retryCount": 3
+      }
+    }
+  ]'
+```
+
+---
+
+## FiveM SDK
+
+The FiveM SDK simplifies logging from your FiveM server resources. It handles authentication and batching automatically.
+
+### Installation
+
+Ensure you have the `fivemanage` resource installed and configured with your API token.
+
+### Usage (Lua)
+
+```lua
+-- Log an info message
+exports.fivemanage:log("info", "Player spawned", {
+    playerId = source,
+    model = "mp_m_freemode_01",
+    coords = GetEntityCoords(GetPlayerPed(source))
+})
+
+-- Log an error
+exports.fivemanage:log("error", "Failed to save player data", {
+    playerId = source,
+    error = "Database timeout"
+})
+```
+
+### Best Practices for FiveM
+
+- **Resource Name**: The SDK automatically includes the resource name. Ensure your resource names are descriptive.
+- **Player Identifiers**: When logging player actions, include their identifiers (license, steam, discord) in the metadata for easier tracking.
+- **Event Handling**: Log critical server events like resource starts/stops and player connections/disconnections.
+
+---
+
+## Hytale SDK
+
+For Hytale servers (Java/Kotlin), you can use the Fivemanage SDK or make direct HTTP requests.
+
+### Usage (Java/Kotlin)
+
+Assuming a hypothetical `FivemanageLogger` class wrapper:
+
+```kotlin
+import com.fivemanage.sdk.FivemanageLogger
+
+val logger = FivemanageLogger("YOUR_API_TOKEN")
+
+// Log an info message
+logger.info("Player joined the adventure", mapOf(
+    "playerUuid" to player.uniqueId.toString(),
+    "world" to player.world.name
+))
+
+// Log an error with exception
+try {
+    // ... risky code ...
+} catch (e: Exception) {
+    logger.error("An error occurred", mapOf(
+        "exception" to e.message,
+        "stackTrace" to e.stackTraceToString()
+    ))
+}
+```
+
+### Best Practices for Hytale
+
+- **World Context**: Include the world name or dimension in metadata.
+- **Entity Data**: Log entity types and locations for gameplay analysis.
+- **Performance**: Use asynchronous logging to avoid blocking the main server thread.
+
+---
+
+## OpenTelemetry Integration
+
+Fivemanage supports OpenTelemetry standards. While the current API focuses on structured logs, you can include trace context in your metadata to link logs with traces.
+
+### Including Trace Context
+
+If you are using OpenTelemetry in your application, extract the `trace_id` and `span_id` and include them in the `metadata` field.
+
+```json
+{
+  "level": "error",
+  "message": "Payment failed",
+  "metadata": {
+    "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
+    "span_id": "00f067aa0ba902b7",
+    "userId": "user_123"
+  }
+}
+```
+
+This allows you to correlate logs with distributed traces, providing a complete picture of a request's lifecycle.

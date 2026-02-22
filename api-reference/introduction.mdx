@@ -1,6 +1,6 @@
 ---
-title: 'API Introduction'
-description: 'Build powerful integrations with the Fivemanage REST API.'
+title: "API Introduction"
+description: "Build powerful integrations with the Fivemanage REST API."
 ---
 
 Welcome to the Fivemanage API reference. Our REST API allows you to programmatically manage your game media, centralize your logs, and integrate our high-performance infrastructure directly into your own applications and game scripts.
@@ -10,7 +10,7 @@ Welcome to the Fivemanage API reference. Our REST API allows you to programmatic
 All API requests should be made to the following base URL:
 
 ```http
-https://api.fivemanage.com/api
+https://api.fivemanage.com/api/v3
 ```
 
 ## Authentication
@@ -32,16 +32,16 @@ Authorization: YOUR_API_KEY
 Our API is organized around the following core functionalities:
 
 <CardGroup cols={2}>
-  <Card title="Media Management" icon="images" href="/api-reference/image/upload-an-image">
+  <Card icon="images" href="/api-reference/image/upload-an-image" title="Media Management">
     Upload, list, and delete images, videos, and audio files. Manage your game's assets with ease.
   </Card>
-  <Card title="Structured Logging" icon="terminal" href="/api-reference/logs/submit-logs-1">
+  <Card icon="terminal" href="/api-reference/logs/submit-logs-1" title="Structured Logging">
     Submit logs from your game servers to a centralized, searchable dashboard.
   </Card>
-  <Card title="Presigned URLs" icon="link" href="/guides/uploading-files/presigned-urls">
+  <Card icon="link" href="/guides/uploading-files/presigned-urls" title="Presigned URLs">
     Generate secure, temporary URLs for direct client-side uploads to our CDN.
   </Card>
-  <Card title="SDK Integration" icon="bolt" href="/fivemanage/guides/logs/getting-started">
+  <Card icon="bolt" href="/fivemanage/guides/logs/getting-started" title="SDK Integration">
     Manage SDK tokens and heartbeats for seamless integration with FiveM and Roblox.
   </Card>
 </CardGroup>
@@ -55,7 +55,7 @@ The API returns data in JSON format. Successful requests will typically return a
   "status": "ok",
   "data": {
     "id": "7F9pGhN8qwErT1vx5aZk",
-    "url": "https://i.fmfile.com/7F9pGhN8qwErT1vx5aZk.jpg"
+    "url": "https://r2.fivemanage.com/<teamId>/7F9pGhN8qwErT1vx5aZk.jpg"
   }
 }
 ```

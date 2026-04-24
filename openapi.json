@@ -263,7 +263,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "List files with pagination and filtering by type or path.",
+                "description": "List files with pagination and filtering by type or path.\nIf a custom CDN domain is configured and enabled, the response `url` will use the custom domain and `originalUrl` will contain the default storage URL.",
                 "tags": [
                     "Files"
                 ],
@@ -341,7 +341,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Upload a file using multipart/form-data with optional metadata and path. Supports images, videos, and audio.",
+                "description": "Upload a file using multipart/form-data with optional metadata and path. Supports images, videos, and audio.\nIf a custom CDN domain is configured and enabled, the response `url` will use the custom domain and `originalUrl` will contain the default storage URL.",
                 "tags": [
                     "Files"
                 ],
@@ -443,7 +443,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Upload a base64 encoded file with optional metadata and path. Supports images, videos, and audio.",
+                "description": "Upload a base64 encoded file with optional metadata and path. Supports images, videos, and audio.\nIf a custom CDN domain is configured and enabled, the response `url` will use the custom domain and `originalUrl` will contain the default storage URL.",
                 "tags": [
                     "Files"
                 ],
@@ -591,7 +591,7 @@
         },
         "/v3/file/presigned-url/{token}": {
             "post": {
-                "description": "Upload a file using a V3 presigned URL token. Supports all standard V3 upload fields in form-data.",
+                "description": "Upload a file using a V3 presigned URL token. Supports all standard V3 upload fields in form-data.\nIf a custom CDN domain is configured and enabled, the response `url` will use the custom domain and `originalUrl` will contain the default storage URL.",
                 "tags": [
                     "Files"
                 ],
@@ -704,7 +704,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get detailed information about a specific file by ID or storage key.",
+                "description": "Get detailed information about a specific file by ID or storage key.\nIf a custom CDN domain is configured and enabled, the response `url` will use the custom domain and `originalUrl` will contain the default storage URL.",
                 "tags": [
                     "Files"
                 ],
@@ -918,6 +918,73 @@
                     }
                 }
             }
+        },
+        "/v3/logs/discord": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Accepts a Discord-format webhook payload and ingests each embed as a structured log entry. FiveM servers can point their existing Discord webhook URLs at this endpoint instead.",
+                "tags": [
+                    "Logging"
+                ],
+                "summary": "Ingest Discord Webhook Logs",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/api.DiscordWebhookPayload"
+                            }
+                        }
+                    },
+                    "description": "Discord webhook payload",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "servers": [
@@ -934,6 +1001,108 @@
             }
         },
         "schemas": {
+            "api.DiscordEmbed": {
+                "type": "object",
+                "properties": {
+                    "author": {
+                        "$ref": "#/components/schemas/api.DiscordEmbedAuthor"
+                    },
+                    "color": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/api.DiscordEmbedField"
+                        }
+                    },
+                    "footer": {
+                        "$ref": "#/components/schemas/api.DiscordEmbedFooter"
+                    },
+                    "image": {
+                        "$ref": "#/components/schemas/api.DiscordEmbedImage"
+                    },
+                    "thumbnail": {
+                        "$ref": "#/components/schemas/api.DiscordEmbedImage"
+                    },
+                    "timestamp": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.DiscordEmbedAuthor": {
+                "type": "object",
+                "properties": {
+                    "icon_url": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.DiscordEmbedField": {
+                "type": "object",
+                "properties": {
+                    "inline": {
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.DiscordEmbedFooter": {
+                "type": "object",
+                "properties": {
+                    "icon_url": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.DiscordEmbedImage": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.DiscordWebhookPayload": {
+                "type": "object",
+                "properties": {
+                    "avatar_url": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "embeds": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/api.DiscordEmbed"
+                        }
+                    },
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            },
             "api.ErrorResponse": {
                 "type": "object",
                 "properties": {
@@ -966,6 +1135,10 @@
                     "metadata": {
                         "type": "object",
                         "additionalProperties": {}
+                    },
+                    "originalUrl": {
+                        "type": "string",
+                        "example": "https://r2.fivemanage.com/23492kdx23121/7F9pGhN8qwErT1vx5aZk.jpg"
                     },
                     "size": {
                         "type": "integer"
@@ -1002,6 +1175,10 @@
                         "type": "string",
                         "example": "7F9pGhN8qwErT1vx5aZk"
                     },
+                    "originalUrl": {
+                        "type": "string",
+                        "example": "https://r2.fivemanage.com/23492kdx23121/7F9pGhN8qwErT1vx5aZk.jpg"
+                    },
                     "url": {
                         "type": "string",
                         "example": "https://r2.fivemanage.com/23492kdx23121/7F9pGhN8qwErT1vx5aZk.jpg"
@@ -1034,6 +1211,9 @@
                         "additionalProperties": {}
                     },
                     "resource": {
+                        "type": "string"
+                    },
+                    "timestamp": {
                         "type": "string"
                     }
                 }

@@ -850,6 +850,134 @@
             }
         },
         "/v3/logs": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Search and list log entries with filtering and pagination.",
+                "tags": [
+                    "Logging (Beta)"
+                ],
+                "summary": "Query Logs",
+                "parameters": [
+                    {
+                        "description": "Dataset name (alternative to X-Fivemanage-Dataset header)",
+                        "name": "dataset",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Comma-separated log levels (e.g. error,warning)",
+                        "name": "level",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Filter by resource name",
+                        "name": "resource",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Free-text search across log body and metadata values",
+                        "name": "q",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Start time (RFC 3339, e.g. 2024-01-01T00:00:00Z)",
+                        "name": "from",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "End time (RFC 3339, e.g. 2024-01-02T00:00:00Z)",
+                        "name": "to",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Page size (default: 50, max: 100)",
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "Offset for pagination (default: 0)",
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "Sort direction on timestamp: asc or desc (default: desc)",
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.LogQueryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -919,36 +1047,44 @@
                 }
             }
         },
-        "/v3/logs/discord": {
-            "post": {
+        "/v3/logs/{traceId}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Accepts a Discord-format webhook payload and ingests each embed as a structured log entry. FiveM servers can point their existing Discord webhook URLs at this endpoint instead.",
+                "description": "Retrieve a single log entry by its trace ID.",
                 "tags": [
-                    "Logging"
+                    "Logging (Beta)"
                 ],
-                "summary": "Ingest Discord Webhook Logs",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/api.DiscordWebhookPayload"
-                            }
+                "summary": "Get Log by Trace ID",
+                "parameters": [
+                    {
+                        "description": "Trace ID of the log entry",
+                        "name": "traceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
-                    "description": "Discord webhook payload",
-                    "required": true
-                },
+                    {
+                        "description": "Dataset name (alternative to X-Fivemanage-Dataset header)",
+                        "name": "dataset",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/api.SuccessResponse"
+                                    "$ref": "#/components/schemas/api.LogDetailResponse"
                                 }
                             }
                         }
@@ -965,6 +1101,16 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1001,108 +1147,6 @@
             }
         },
         "schemas": {
-            "api.DiscordEmbed": {
-                "type": "object",
-                "properties": {
-                    "author": {
-                        "$ref": "#/components/schemas/api.DiscordEmbedAuthor"
-                    },
-                    "color": {
-                        "type": "integer"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "fields": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/api.DiscordEmbedField"
-                        }
-                    },
-                    "footer": {
-                        "$ref": "#/components/schemas/api.DiscordEmbedFooter"
-                    },
-                    "image": {
-                        "$ref": "#/components/schemas/api.DiscordEmbedImage"
-                    },
-                    "thumbnail": {
-                        "$ref": "#/components/schemas/api.DiscordEmbedImage"
-                    },
-                    "timestamp": {
-                        "type": "string"
-                    },
-                    "title": {
-                        "type": "string"
-                    }
-                }
-            },
-            "api.DiscordEmbedAuthor": {
-                "type": "object",
-                "properties": {
-                    "icon_url": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "url": {
-                        "type": "string"
-                    }
-                }
-            },
-            "api.DiscordEmbedField": {
-                "type": "object",
-                "properties": {
-                    "inline": {
-                        "type": "boolean"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "value": {
-                        "type": "string"
-                    }
-                }
-            },
-            "api.DiscordEmbedFooter": {
-                "type": "object",
-                "properties": {
-                    "icon_url": {
-                        "type": "string"
-                    },
-                    "text": {
-                        "type": "string"
-                    }
-                }
-            },
-            "api.DiscordEmbedImage": {
-                "type": "object",
-                "properties": {
-                    "url": {
-                        "type": "string"
-                    }
-                }
-            },
-            "api.DiscordWebhookPayload": {
-                "type": "object",
-                "properties": {
-                    "avatar_url": {
-                        "type": "string"
-                    },
-                    "content": {
-                        "type": "string"
-                    },
-                    "embeds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/api.DiscordEmbed"
-                        }
-                    },
-                    "username": {
-                        "type": "string"
-                    }
-                }
-            },
             "api.ErrorResponse": {
                 "type": "object",
                 "properties": {
@@ -1197,6 +1241,80 @@
                     }
                 }
             },
+            "api.LogDetailResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/api.LogEntryResponse"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.LogEntryResponse": {
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "string"
+                    },
+                    "level": {
+                        "type": "string"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "parentId": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string"
+                    },
+                    "traceId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "api.LogQueryPagination": {
+                "type": "object",
+                "properties": {
+                    "hasMore": {
+                        "type": "boolean"
+                    },
+                    "limit": {
+                        "type": "integer"
+                    },
+                    "offset": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "api.LogQueryResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/api.LogEntryResponse"
+                        }
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/api.LogQueryPagination"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
             "api.LogRequest": {
                 "type": "object",
                 "properties": {
@@ -1211,9 +1329,6 @@
                         "additionalProperties": {}
                     },
                     "resource": {
-                        "type": "string"
-                    },
-                    "timestamp": {
                         "type": "string"
                     }
                 }

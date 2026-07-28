@@ -8,21 +8,31 @@ The Fivemanage Logger is configured using a `config.json` file located in `mods/
 
 ## Configuration Structure
 
-The configuration is divided into two main sections: `LogProvider` and `PlayerEvents`.
+The configuration is divided into two main sections: `LogProvider` and `Events`.
 
 ```json
 {
   "LogProvider": {
     "Provider": "fivemanage",
     "ApiKey": "your-fivemanage-api-key",
+    "Endpoint": "",
+    "Username": "",
+    "Password": "",
     "WriteToDisk": false,
     "EnableBatching": true,
     "BufferSize": 10,
     "FlushIntervalMs": 5000
   },
-  "PlayerEvents": {
-    "Dataset": "player-events",
-    "Enabled": true
+  "Events": {
+    "ServerLifecycle": { "Enabled": true, "Dataset": "default" },
+    "ServerHeartbeat": { "Enabled": true, "Dataset": "server-metrics", "IntervalMs": 30000 },
+    "PlayerEvents": { "Enabled": true, "Dataset": "default" },
+    "Chat": { "Enabled": true, "Dataset": "default" },
+    "Combat": { "Enabled": true, "Dataset": "default" },
+    "BlockEvents": { "Enabled": false, "Dataset": "default" },
+    "Gameplay": { "Enabled": true, "Dataset": "default" },
+    "Exploration": { "Enabled": true, "Dataset": "default" },
+    "Inventory": { "Enabled": false, "Dataset": "default" }
   }
 }
 ```
@@ -31,15 +41,19 @@ The configuration is divided into two main sections: `LogProvider` and `PlayerEv
 
 | Option            | Type      | Description                                                                  |
 | :---------------- | :-------- | :--------------------------------------------------------------------------- |
-| `Provider`        | `string`  | The logging backend to use: `fivemanage`, `grafana-loki`, or `file`.         |
+| `Provider`        | `string`  | The logging backend to use: `fivemanage`, `grafana-loki`, or `loki`.         |
 | `ApiKey`          | `string`  | Your Fivemanage API key (required for `fivemanage` provider).                |
 | `Endpoint`        | `string`  | The Loki push endpoint URL (required for `grafana-loki`).                    |
 | `Username`        | `string`  | Basic auth username for Grafana Loki.                                        |
 | `Password`        | `string`  | Basic auth password/API key for Grafana Loki.                                |
-| `WriteToDisk`     | `boolean` | If `true`, logs will also be written to local files in the `logs` directory. |
+| `WriteToDisk`     | `boolean` | If `true`, logs are also mirrored to local files in the `logs` directory.    |
 | `EnableBatching`  | `boolean` | Whether to buffer logs before sending them to the provider.                  |
 | `BufferSize`      | `integer` | Number of logs to buffer before flushing (default: `10`).                    |
 | `FlushIntervalMs` | `integer` | Maximum time (in ms) to wait before flushing the buffer (default: `5000`).   |
+
+<Note>
+  Local file logging is enabled with `WriteToDisk`; `file` is not a standalone provider value.
+</Note>
 
 ## Provider Specifics
 
@@ -67,17 +81,55 @@ To send logs to Grafana Loki or Grafana Cloud, use the `grafana-loki` provider.
 }
 ```
 
-## Player Events Options
+## Event Categories
 
-| Option    | Type      | Description                                                                                |
-| :-------- | :-------- | :----------------------------------------------------------------------------------------- |
-| `Dataset` | `string`  | The name of the dataset (or label) where player events will be stored.                     |
-| `Enabled` | `boolean` | If `true`, the plugin will automatically log player connect, ready, and disconnect events. |
+All automatic logging is configured under the top-level `Events` object. Each category can be toggled independently and routed to its own dataset.
 
-### Automatically Tracked Events
+| Category          | Default | Description                                                                                                         |
+| :---------------- | :------ | :------------------------------------------------------------------------------------------------------------------ |
+| `ServerLifecycle` | On      | Server start and shutdown logs.                                                                                     |
+| `ServerHeartbeat` | On      | Periodic player count heartbeat logs for live dashboards.                                                           |
+| `PlayerEvents`    | On      | Player connect, ready, disconnect, and session duration logs.                                                       |
+| `Chat`            | On      | Player chat logs.                                                                                                   |
+| `Combat`          | On      | Player death and kill logs.                                                                                         |
+| `BlockEvents`     | Off     | Block break and place logs. Disabled by default because it can be noisy.                                            |
+| `Gameplay`        | On      | Crafting, treasure, and game mode logs.                                                                             |
+| `Exploration`     | On      | Zone and instance discovery logs.                                                                                   |
+| `Inventory`       | Off     | Inventory moves, drops, additions, creative item actions, and container/chest transfers. Disabled by default because it can be noisy. |
 
-When `PlayerEvents.Enabled` is set to `true`, the following events are captured:
+### Category Options
+
+Every event category supports these options:
+
+| Option    | Type      | Description                                                       |
+| :-------- | :-------- | :---------------------------------------------------------------- |
+| `Dataset` | `string`  | The dataset (or label) where events for this category are stored. |
+| `Enabled` | `boolean` | If `true`, events for this category are logged automatically.     |
+
+`ServerHeartbeat` additionally supports:
+
+| Option       | Type      | Description                                              |
+| :----------- | :-------- | :------------------------------------------------------- |
+| `IntervalMs` | `integer` | Heartbeat interval in milliseconds (default: `30000`).  |
+
+### Player Events
+
+When `Events.PlayerEvents.Enabled` is set to `true`, the following events are captured:
 
 - **Player Connect:** Logged when a player initiates a connection.
 - **Player Ready:** Logged when a player has fully loaded into the world.
-- **Player Disconnect:** Logged when a player leaves the server.
+- **Player Disconnect:** Logged when a player leaves the server, including their session duration.
+
+### Inventory Events
+
+When `Events.Inventory.Enabled` is set to `true`, the plugin logs inventory activity such as:
+
+- Item stack moves and smart moves between inventory sections.
+- Item drops.
+- Slot-level changes (items added, removed, or changed).
+- Creative item actions.
+- Container and chest window interactions.
+
+<Warning>
+  Inventory events are disabled by default because they generate a high volume of logs. Consider routing them to a dedicated dataset if you enable them.
+</Warning>

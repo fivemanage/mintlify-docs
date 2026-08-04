@@ -858,7 +858,7 @@
                 ],
                 "description": "Search and list log entries with filtering and pagination.",
                 "tags": [
-                    "Logging (Beta)"
+                    "Logging"
                 ],
                 "summary": "Query Logs",
                 "parameters": [
@@ -887,8 +887,16 @@
                         }
                     },
                     {
-                        "description": "Free-text search across log body and metadata values",
-                        "name": "q",
+                        "description": "Free-text search on the log Body column only",
+                        "name": "body",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Exact match on a LogAttributes JSON path (e.g. metadata.userId=123 or metadata._playerIdentifiers.discord=abc)",
+                        "name": "metadata.*",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -932,6 +940,14 @@
                         "in": "query",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Include total count in response (default: false, skipped for performance)",
+                        "name": "includeTotal",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
                 ],
@@ -1056,7 +1072,7 @@
                 ],
                 "description": "Retrieve a single log entry by its trace ID.",
                 "tags": [
-                    "Logging (Beta)"
+                    "Logging"
                 ],
                 "summary": "Get Log by Trace ID",
                 "parameters": [
